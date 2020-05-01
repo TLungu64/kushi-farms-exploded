@@ -16,29 +16,29 @@ Route::get('/', function () {
 });
 
 Route::get('/about-us', function () {
-    return view('about-us.html');
+    return view('about-us');
 });
 
 Route::get('/login', function () {
-    return view('login.html');
+    return view('login');
 });
 
 Route::get('/contact-us', function () {
-    return view('contact-us.html');
+    return view('contact-us');
 });
 
 
 Route::get('/registration', function () {
-    return view('registration.html');
+    return view('registration');
 });
 
 Route::get('/features', function () {
-    return view('features.html');
+    return view('features');
 });
 
 
 Route::get('/pricing', function () {
-    return view('pricing.html');
+    return view('pricing');
 });
 
 /*	Auth::routes();

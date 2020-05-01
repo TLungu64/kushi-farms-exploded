@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Brand</title>
+    <title>Register - Brand</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
@@ -21,28 +21,30 @@
             <div class="collapse navbar-collapse"
                 id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="features.html">Features</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="pricing.html">Pricing</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="about-us.html">About Us</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="contact-us.html">Contact Us</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link active" href="/">Home</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/features">Features</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/pricing">Pricing</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/about-us">About Us</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/contact-us">Contact Us</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/login">log in</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <main class="page login-page">
+    <main class="page registration-page">
         <section class="clean-block clean-form dark">
             <div class="container">
                 <div class="block-heading">
-                    <h2 class="text-warning">Log In</h2>
+                    <h2 class="text-info">Registration</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
                 </div>
                 <form>
+                    <div class="form-group"><label for="name">Name</label><input class="form-control item" type="text" id="name"></div>
+                    <div class="form-group"><label for="email">Phone number</label><input class="form-control item" type="text" id="email"></div>
                     <div class="form-group"><label for="email">Email</label><input class="form-control item" type="text" id="email"></div>
-                    <div class="form-group"><label for="password">Password</label><input class="form-control" type="password" id="password"></div>
-                    <div class="form-group">
-                        <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox"><label class="form-check-label" for="checkbox">Remember me</label></div>
-                    </div><button class="btn btn-primary btn-block" type="button">Log In</button><a class="text-monospace" href="registration.html" id="signup">Sign up</a></form>
+                    <div class="form-group"><label for="password">Password</label><input class="form-control item" type="password" id="password"></div>
+                    <div class="form-group"><label for="password">re-enter password</label><input class="form-control item" type="password" id="password"></div>
+                    <div class="form-group"><label for="email">Organisation</label><input class="form-control item" type="text" id="email"></div><button class="btn btn-primary btn-block" type="button">Sign Up</button></form>
             </div>
         </section>
     </main>
