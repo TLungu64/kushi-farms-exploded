@@ -37,7 +37,7 @@
                     <div class="form-group"><label for="password">Password</label><input class="form-control" type="password" id="password"></div>
                     <div class="form-group">
                         <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox"><label class="form-check-label" for="checkbox">Remember me</label></div>
-                    </div><button class="btn btn-primary btn-block" type="button">Log In</button><a class="text-monospace" href="registration.html" id="signup">Sign up</a></form>
+                    </div><button class="btn btn-primary btn-block" type="button">Log In</button><a class="text-monospace" href="/registration" id="signup">Sign up</a></form>
             </div>
         </section>
     </main>
