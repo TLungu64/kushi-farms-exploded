@@ -61,26 +61,26 @@
                     <h2 class="text-center text-warning">Gallary</h2>
                     <div class="row">
                         <div class="col-4">
-                            <div class="card"><a href="assets/img/farm/green_house.jpeg" target="_blank" data-lightbox="gallary"><img class="img-fluid" src="assets/img/farm/green_house.jpeg"></a></div>
+                            <div class="card"><a href="/images/farm/green_house.jpeg" target="_blank" data-lightbox="gallary"><img class="img-fluid" src="/images/farm/green_house.jpeg"></a></div>
                         </div>
                         <div class="col-4">
-                            <div class="card"><a href="assets/img/farm/cabbage_row.jpeg" target="_blank" data-lightbox="gallary"><img class="img-fluid" src="assets/img/farm/cabbage_row.jpeg"></a></div>
+                            <div class="card"><a href="/images/farm/cabbage_row.jpeg" target="_blank" data-lightbox="gallary"><img class="img-fluid" src="/images/farm/cabbage_row.jpeg"></a></div>
                         </div>
                         <div class="col-4">
-                            <div class="card"><a href="farm.green_house2.jpeg" target="_blank" data-lightbox="gallary"><img class="img-fluid" src="assets/img/farm/green_house2.jpeg"></a></div>
+                            <div class="card"><a href="farm.green_house2.jpeg" target="_blank" data-lightbox="gallary"><img class="img-fluid" src="/images/farm/green_house2.jpeg"></a></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-4">
-                    <div class="card"><a href="assets/img/farm/growing_banana.jpeg" target="_blank" data-lightbox="gallary"><img class="img-fluid" src="assets/img/farm/growing_banana.jpeg"></a></div>
+                    <div class="card"><a href="/images/farm/growing_banana.jpeg" target="_blank" data-lightbox="gallary"><img class="img-fluid" src="/images/farm/growing_banana.jpeg"></a></div>
                 </div>
                 <div class="col-4">
-                    <div class="card"><a href="assets/img/farm/grown_banana.jpeg" target="_blank" data-lightbox="gallary"><img class="img-fluid" src="assets/img/farm/grown_banana.jpeg"></a></div>
+                    <div class="card"><a href="/images/farm/grown_banana.jpeg" target="_blank" data-lightbox="gallary"><img class="img-fluid" src="/images/farm/grown_banana.jpeg"></a></div>
                 </div>
                 <div class="col-4">
-                    <div class="card"><a href="assets/img/farm/goats.jpeg" target="_blank" data-lightbox="gallary"><img class="img-fluid" src="assets/img/farm/goats.jpeg"></a></div>
+                    <div class="card"><a href="/images/farm/goats.jpeg" target="_blank" data-lightbox="gallary"><img class="img-fluid" src="/images/farm/goats.jpeg"></a></div>
                 </div>
             </div>
         </div>

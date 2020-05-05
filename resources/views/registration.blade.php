@@ -4,9 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Register - Brand</title>
     <link rel="stylesheet" href="css/app.js">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 
 <body>
@@ -32,15 +34,24 @@
                     <h2 class="text-info">Registration</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
                 </div>
-                <form>
-                    <div class="form-group"><label for="name">Name</label><input class="form-control item" type="text" id="name"></div>
-                    <div class="form-group"><label for="email">Phone number</label><input class="form-control item" type="text" id="email"></div>
-                    <div class="form-group"><label for="email">Email</label><input class="form-control item" type="text" id="email"></div>
-                    <div class="form-group"><label for="password">Password</label><input class="form-control item" type="password" id="password"></div>
-                    <div class="form-group"><label for="password">re-enter password</label><input class="form-control item" type="password" id="password"></div>
-                    <div class="form-group"><label for="email">Organisation</label><input class="form-control item" type="text" id="email"></div><button class="btn btn-primary btn-block" type="button">Sign Up</button></form>
+                @if(count($errors)>0)
+                     @foreach($errors->all()   as $error)
+                <p class="alert alert-danger">{{$error}}</p>
+                     @endforeach
+                @endif
+                <form action="{{route('regPost')}}" method="post">
+                    {{ csrf_field() }}
+                    <div class="form-group"><label for="name">First Name</label><input class="form-control item" type="text" name="name" placeholder="Enter your name"></div>
+                    <div class="form-group"><label for="lastname">Last Name</label><input class="form-control item" type="text" name="lastname"></div>
+                    <div class="form-group"><label for="email">Phone number</label><input class="form-control item" type="text" name="email"></div>
+                    <div class="form-group"><label for="email">Email</label><input class="form-control item" type="text" name="email"></div>
+                    <div class="form-group"><label for="password">Password</label><input class="form-control item" type="password" name="password"></div>
+                    <div class="form-group"><label for="password">re-enter password</label><input class="form-control item" type="password" name="password_confirmation"></div>
+                    <div class="form-group"><label for="organisation">Organisation</label><input class="form-control item" type="text" name="organisation"></div>
+                    <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
+                </form>
             </div>
-        </section>
+        </section> 
     </main>
     <footer class="page-footer dark">
         <div class="container">

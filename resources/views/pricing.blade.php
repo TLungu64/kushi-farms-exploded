@@ -39,7 +39,7 @@
                                 <h3>Bananas</h3>
                             </div>
                             <div class="features">
-                                <h4><img class="img-fluid" src="assets/img/farm/WhatsApp Image 2019-12-16 at 16.02.35.jpeg"></h4>
+                                <h4><img class="img-fluid" src="/images/farm/WhatsApp Image 2019-12-16 at 16.02.35.jpeg"></h4>
                                 <h4></h4>
                             </div>
                             <div class="price">
@@ -53,7 +53,7 @@
                                 <h3>Soya Beans</h3>
                             </div>
                             <div class="features">
-                                <h4><img class="img-fluid" src="assets/img/farm/WhatsApp Image 2020-03-31 at 12.20.08.jpeg"></h4>
+                                <h4><img class="img-fluid" src="/images/farm/WhatsApp Image 2020-03-31 at 12.20.08.jpeg"></h4>
                                 <h4></h4>
                             </div>
                             <div class="price">
@@ -68,7 +68,7 @@
                             <div class="features">
                                 <h4></h4>
                                 <h4></h4>
-                                <h4><img class="img-fluid" src="assets/img/farm/goats.jpeg"></h4>
+                                <h4><img class="img-fluid" src="/images/farm/goats.jpeg"></h4>
                             </div>
                             <div class="price">
                                 <h4><strong>K150/</strong><em>each</em></h4>
