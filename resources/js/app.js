@@ -8,18 +8,20 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+// moment
 import moment from 'moment'
+// error messages
 import { Form, HasError} from 'vform'
 
 window.Form = Form;
 Vue.component(HasError.name,HasError)
 
-
+// sweetalert
 import Swal from 'sweetalert2'
 window.Swal = Swal;
 
 
- 
+// sign in alert specifications
 const Toast = Swal.mixin({
   toast: true,
   position: 'top-end',
@@ -32,14 +34,16 @@ const Toast = Swal.mixin({
   }
 })
 
-window.Toast=Toast;
+window.Toast  = Toast;
+ window.Refresh =  new Vue();
 
-
-
+// vue
 import Vue from 'vue'
+// vue router
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
+// vue progress bar
 import VueProgressBar from 'vue-progressbar'
 Vue.use(VueProgressBar, {
   color: 'rgb(143,255,199',
@@ -48,22 +52,25 @@ Vue.use(VueProgressBar, {
   
 });
 
-
+// vue routes
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue') },
     { path: '/profile', component: require('./components/Profile.vue') },
     { path: '/users', component: require('./components/Users.vue') }
   ]
 
+  // router has normal url 
   const router = new VueRouter({
       mode:'history',
     routes // short for `routes: routes`
   })
 
+  // filter to set the first letter to uppercase
   Vue.filter('upText',function(text){
     return text.charAt(0).toUpperCase() + text.slice(1)
   });
 
+  // filter to change the date format using moment
   Vue.filter('myDate',function(created){
     return moment().format('MMMM Do YYYY');
   });
@@ -79,7 +86,7 @@ const app = new Vue({
     el: '#app',
     router
 });
-function newFunction() {
-  window.toast = toast;
-}
+// function newFunction() {
+//   window.toast = toast;
+// }
 

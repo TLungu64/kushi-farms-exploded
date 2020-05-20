@@ -70,7 +70,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
+              {{-- listing the different options to appear on the sidebar menu --}}
             <li class="nav-item">
+              {{-- router links using vue router to navigate the route --}}
             <router-link to="/dashboard" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt blue"></i>
               <p>
@@ -143,8 +145,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
+        {{-- displays the view specied by the router link on the same page --}}
        <router-view></router-view>
-       
+       {{-- shows the progress bar  --}}
        <vue-progress-bar></vue-progress-bar>
       </div><!-- /.container-fluid -->
     </div>
@@ -162,7 +165,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Default to the left -->
   <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
 </footer>
-
+{{-- using the local js file  --}}
 <script src="/js/app.js"></script>
 </body>
 </html>

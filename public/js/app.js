@@ -34668,15 +34668,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __webpack_require__(150);
 
 window.Vue = __webpack_require__(15);
+// moment
 
+// error messages
 
 
 window.Form = __WEBPACK_IMPORTED_MODULE_1_vform__["Form"];
 __WEBPACK_IMPORTED_MODULE_3_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_1_vform__["HasError"].name, __WEBPACK_IMPORTED_MODULE_1_vform__["HasError"]);
 
+// sweetalert
 
 window.Swal = __WEBPACK_IMPORTED_MODULE_2_sweetalert2___default.a;
 
+// sign in alert specifications
 var Toast = __WEBPACK_IMPORTED_MODULE_2_sweetalert2___default.a.mixin({
   toast: true,
   position: 'top-end',
@@ -34690,11 +34694,15 @@ var Toast = __WEBPACK_IMPORTED_MODULE_2_sweetalert2___default.a.mixin({
 });
 
 window.Toast = Toast;
+window.Refresh = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a();
 
+// vue
 
+// vue router
 
 __WEBPACK_IMPORTED_MODULE_3_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]);
 
+// vue progress bar
 
 __WEBPACK_IMPORTED_MODULE_3_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_vue_progressbar___default.a, {
   color: 'rgb(143,255,199',
@@ -34703,17 +34711,21 @@ __WEBPACK_IMPORTED_MODULE_3_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_vue_
 
 });
 
+// vue routes
 var routes = [{ path: '/dashboard', component: __webpack_require__(179) }, { path: '/profile', component: __webpack_require__(182) }, { path: '/users', component: __webpack_require__(185) }];
 
+// router has normal url 
 var router = new __WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]({
   mode: 'history',
   routes: routes // short for `routes: routes`
 });
 
+// filter to set the first letter to uppercase
 __WEBPACK_IMPORTED_MODULE_3_vue___default.a.filter('upText', function (text) {
   return text.charAt(0).toUpperCase() + text.slice(1);
 });
 
+// filter to change the date format using moment
 __WEBPACK_IMPORTED_MODULE_3_vue___default.a.filter('myDate', function (created) {
   return __WEBPACK_IMPORTED_MODULE_0_moment___default()().format('MMMM Do YYYY');
 });
@@ -34729,9 +34741,9 @@ var app = new __WEBPACK_IMPORTED_MODULE_3_vue___default.a({
   el: '#app',
   router: router
 });
-function newFunction() {
-  window.toast = toast;
-}
+// function newFunction() {
+//   window.toast = toast;
+// }
 
 /***/ }),
 /* 150 */
@@ -77204,12 +77216,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       users: {},
       form: new Form({
+        // parsing the data retrieved into the relevant fields
         name: '',
         email: '',
         password: '',
@@ -77224,33 +77241,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     loadUsers: function loadUsers() {
       var _this = this;
 
+      // using axios to use the api controller to route the data and update the database with the same data
       axios.get("api/user").then(function (_ref) {
         var data = _ref.data;
         return _this.users = data.data;
       });
     },
-    createUser: function createUser() {
 
+
+    // method to create user via info given in form
+    createUser: function createUser() {
+      // progress bar begins
       this.$Progress.start();
+
+      //  posts http request to server
       this.form.post('api/user');
 
+      // event initialization 
+      Refresh.$emit('afterCreated');
+      // hides the modal once the user is created
+      // the addnew is the modal id 
       $('#addnew').modal('hide');
 
+      // splashes the sweet alert feature showing that the user has been successfully created
       Toast.fire({
         icon: 'success',
         title: 'Signed in successfully'
       });
 
-      this.$Progress.start();
+      // progress bar ends 
+      this.$Progress.finish();
     }
   },
   created: function created() {
     var _this2 = this;
 
     this.loadUsers();
-    setInterval(function () {
-      return _this2.loadUsers();
-    }, 3000);
+
+    // Event component listening in to refresh
+    Refresh.$on('afterCreated', function () {
+      _this2.loadUsers();
+    });
+    // refreshes the page and sends a request every 3 seconds
+    // setInterval(() => this.loadUsers(),3000);
   }
 });
 

@@ -14,6 +14,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
+              <!-- table to display all the users available in the database -->
                 <table class="table table-hover text-nowrap">
                   <thead>
 
@@ -31,6 +32,7 @@
                   </thead>
 
                   <tbody>
+
                     <tr v-for="user in users" :key="user.id">
                       <td>{{user.id}}</td>
                       <td>{{user.name}}</td>
@@ -60,7 +62,7 @@
         </div>
         </div>
      
-        <!-- Modal -->
+        <!--addnew Modal -->
 <div class="modal fade" id="addnew" tabindex="-1" role="dialog" aria-labelledby="addnewLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -71,6 +73,7 @@
         </button>
       </div>
 
+<!-- form for creating users that will appear in the addnew modal -->
       <form  @submit.prevent="createUser">
       <div class="modal-body">
         <div class="form-group">
@@ -147,11 +150,13 @@
 </template>
 
 <script>
+
     export default {
       data() {
         return{
           users : {},
           form: new Form({
+            // parsing the data retrieved into the relevant fields
             name : '',
             email: '',
             password: '',
@@ -163,28 +168,44 @@
       },
       methods: {
         loadUsers(){
-
+// using axios to use the api controller to route the data and update the database with the same data
             axios.get("api/user").then(({ data }) => (this.users = data.data)) 
             
         },
-        createUser(){
 
+        // method to create user via info given in form
+        createUser(){
+// progress bar begins
          this.$Progress.start();
+
+        //  posts http request to server
         this.form.post('api/user');
 
+// event initialization 
+Refresh.$emit('afterCreated'); 
+// hides the modal once the user is created
+// the addnew is the modal id 
         $('#addnew').modal('hide')
 
+// splashes the sweet alert feature showing that the user has been successfully created
         Toast.fire({
           icon: 'success',
           title: 'Signed in successfully'
         });
 
-         this.$Progress.start();
+// progress bar ends 
+         this.$Progress.finish();
         }
       },
         created() {
             this.loadUsers();
-            setInterval(() => this.loadUsers(),3000);
+
+            // Event component listening in to refresh
+                Refresh.$on('afterCreated', () => {
+                  this.loadUsers();
+                });
+            // refreshes the page and sends a request every 3 seconds
+            // setInterval(() => this.loadUsers(),3000);
         }
     }
 </script>
