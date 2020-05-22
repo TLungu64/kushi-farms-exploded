@@ -8,7 +8,7 @@
                 <h3 class="card-title">Users Table</h3>
 
                 <div class="card-tools">
-                <button class='btn btn-success' data-toggle="modal" data-target="#addnew">Add new <i class=" fas fa-user-plus fa-fw"></i>    
+                <button class='btn btn-success' @click="newModal" >Add new <i class=" fas fa-user-plus fa-fw"></i>    
                 </button>  
                 </div>
               </div>
@@ -42,11 +42,11 @@
                       <td>{{user.organisation}}</td>
                       <td>{{user.created_at | myDate}}</td>
                       <td>
-                          <a href="#">
+                          <a href="#" @click ="editUser(user)">
                           <i class="fa fa-edit"></i>
                       </a>
                       /
-                      <a href="">
+                      <a href="#" @click="deleteUser(user.id)">
                           <i class="fa fa-trash red"></i>
                       </a>
                       </td>
@@ -67,14 +67,15 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addnewLabel">Add New</h5>
+        <h5 class="modal-title" v-show="editmode" id="addnewLabel">Update User's Info</h5>
+        <h5 class="modal-title" v-show="!editmode" id="addnewLabel">Add New User</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
 <!-- form for creating users that will appear in the addnew modal -->
-      <form  @submit.prevent="createUser">
+      <form  @submit.prevent="editmode ? updateUser(): createUser()">
       <div class="modal-body">
         <div class="form-group">
       <input v-model="form.name" type="text" name="name"
@@ -139,7 +140,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Create</button>
+        <button v-show="editmode" type="submit" class="btn btn-success">Update</button>
+        <button v-show="!editmode" type="submit" class="btn btn-primary">Create</button>
       </div>
       </form>
     </div>
@@ -154,9 +156,11 @@
     export default {
       data() {
         return{
+          editmode : false,
           users : {},
           form: new Form({
             // parsing the data retrieved into the relevant fields
+            id : '',
             name : '',
             email: '',
             password: '',
@@ -167,43 +171,139 @@
         }
       },
       methods: {
-        loadUsers(){
-// using axios to use the api controller to route the data and update the database with the same data
-            axios.get("api/user").then(({ data }) => (this.users = data.data)) 
+
+        updateUser(){
+// console.log('editing data');
+         this.$Progress.start();
+        this.form.put('api/user/'+this.form.id)
+        .then(()=>{
+          // success
+        Refresh.$emit('actionMade'); 
+        $('#addnew').modal('hide')
+
+         Toast.fire({
+                  icon: 'success',
+                  title: 'User updated successfully'
+                });
+
+         this.$Progress.finish();
+        })
+        .catch(()=>{
+         this.$Progress.fail();
+         
+        });
+        },
+
+
+        editUser(user){
+          this.editmode = true;
+          this.form.reset();
+          $('#addnew').modal('show')  
+          this.form.fill(user);
+        },
+        
+        newModal(){
+            this.editmode = false;
+            this.form.reset();
+            $('#addnew').modal('show')
             
+        },
+
+        deleteUser(id){
+
+          const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                  confirmButton: 'btn btn-success',
+                  cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+              })
+
+              swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel',
+                reverseButtons: false
+              }).then((result) => {
+
+                // send request to the server 
+                 if (result.value) {
+                this.form.delete('api/user/'+id);              
+                  swalWithBootstrapButtons.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                  )
+                   Refresh.$emit('actionMade');
+                } else if (
+                  /* Read more about handling dismissals below */
+                  result.dismiss === Swal.DismissReason.cancel
+                ) {
+                 Toast.fire({
+                  icon: 'error',
+                  title: 'deletion aborted'
+                });
+                }
+})
+
+
+        },
+
+
+        loadUsers(){
+        // using axios to use the api controller to route the data and update the database with the same data
+            axios.get("api/user")
+                .then(({ data }) => (this.users = data.data)) 
+            .catch(()=>{
+                this.$Progress.fail(); 
+        });
         },
 
         // method to create user via info given in form
         createUser(){
-// progress bar begins
-         this.$Progress.start();
 
-        //  posts http request to server
-        this.form.post('api/user');
+        // progress bar begins
+        this.$Progress.start();
 
-// event initialization 
-Refresh.$emit('afterCreated'); 
-// hides the modal once the user is created
-// the addnew is the modal id 
-        $('#addnew').modal('hide')
+        //  posts http request to server with promise to validate and catch password exception 
+        this.form.post('api/user')
+        .then(()=>{
 
-// splashes the sweet alert feature showing that the user has been successfully created
-        Toast.fire({
-          icon: 'success',
-          title: 'Signed in successfully'
+                // event initialization 
+                Refresh.$emit('actionMade'); 
+                // hides the modal once the user is created
+                // the addnew is the modal id 
+                $('#addnew').modal('hide')
+
+                // splashes the sweet alert feature showing that the user has been successfully created
+                Toast.fire({
+                  icon: 'success',
+                  title: 'Signed in successfully'
+                });
+
+                // progress bar ends 
+                this.$Progress.finish();    
+                
+                
+                })
+        .catch(()=>{
+this.$Progress.fail(); 
         });
 
-// progress bar ends 
-         this.$Progress.finish();
+
         }
       },
         created() {
             this.loadUsers();
 
             // Event component listening in to refresh
-                Refresh.$on('afterCreated', () => {
+                Refresh.$on('actionMade', () => {
                   this.loadUsers();
                 });
+
             // refreshes the page and sends a request every 3 seconds
             // setInterval(() => this.loadUsers(),3000);
         }
