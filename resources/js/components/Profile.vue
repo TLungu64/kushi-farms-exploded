@@ -1,7 +1,8 @@
 <template>
     <div class="container">
+
         <div class="row ">
-            <div class="col-md-12">
+            <div class="col-md-12" v-if="$gate.isAdmin()">
                <div class="card card-widget widget-user">
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header text-white" style="background: url('./images/desk.jpg') center center;">
@@ -9,7 +10,7 @@
                 <h5 class="widget-user-desc text-left">Web Designer</h5>
               </div>
               <div class="widget-user-image">
-                <img class="img-circle" src="" alt="User Avatar">
+                <img class="img-circle" :src="getProfilePhoto()" alt="User Avatar">
               </div>
               <div class="card-footer">
                 <div class="row">
@@ -62,18 +63,21 @@
                         <label for="inputName" class="col-sm-12 col-form-label">Name</label>
                         <div class="col-sm-12">
                           <input type="text" v-model="form.name" class="form-control" id="inputName" placeholder="Name">
+                          <has-error :form="form" field="name" :class="{ 'is-invalid': form.errors.has('name') }"></has-error>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputEmail"  class="col-sm-12 col-form-label">Email</label>
                         <div class="col-sm-12">
-                          <input type="email" v-model="form.email" class="form-control" id="inputEmail" placeholder="Email">
+                          <input type="email" v-model="form.email" class="form-control" id="inputEmail" placeholder="Email" :class="{ 'is-invalid': form.errors.has('email') }">
+                          <has-error :form="form" field="email"></has-error>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="inputExperience" class="col-sm-12 col-form-label">Experience</label>
                         <div class="col-sm-12">
-                          <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                          <textarea class="form-control" v-model="form.bio" id="inputExperience" placeholder="Experience" :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
+                          <has-error :form="form" field="bio"></has-error>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -85,8 +89,9 @@
                       <div class="form-group row">
                         <label for="inputSkills" class="col-sm-12 col-form-label">Password (leave empty if not changing)</label>
                         <div class="col-sm-12">
-                          <input type="text" class="form-control" id="inputSkills" placeholder="Password">
-                        </div>
+                          <input type="text" v-model="form.password" class="form-control" id="inputSkills" placeholder="Password" :class="{ 'is-invalid': form.errors.has('password') }" >
+                          <has-error :form="form" field="password"></has-error>
+                      </div>
                       </div>
                       <div class="form-group row">
                         <div class=" col-sm-10">
@@ -103,11 +108,10 @@
               </div>
             </div>
         </div>
-    
 </template>
 
 <script>
- import Form from 'vform'
+import Form from 'vform'
     export default {
   
         data(){
@@ -127,33 +131,66 @@
         mounted() {
             console.log('Component mounted.')
         },
-
+  
         methods:{
           
+          getProfilePhoto(){
+            return this.form.photo;
+           
+          },
           updateInfo(){
+            this.$Progress.start();
+          if(this.form.password == ""){
+            this.form.password = undefined; 
+      
+          }
               this.form.put('api/profile')
               .then(()=>{
 
+                 
+                this.$Progress.finish();
               })
               .catch(()=>{
 
+
+                this.$Progress.fail();
               });
           },
           updateProfile(e){
-            let file= e.target.files[0];
-            //  console.log('uploading');
-            let reader = new FileReader();
-            reader.onloadend = (file) => {
-              this.form.photo = reader.result;
-              // console.log('RESULT',reader.result)
-            }
-            reader.readAsDataURL(file);
+              if(this.form.password == ""){
+            this.form.password = undefined;
+      
           }
-        },
+            let file= e.target.files[0];
+             console.log(file);
+            let reader = new FileReader();
 
+            if(file['size'] < 2111775){
+              // this.$Progress.start();
+              reader.onloadend = (file) => {
+                this.form.photo = reader.result;
+                // console.log('RESULT',reader.result)
+              }
+              // this.$Progress.finish();
+              reader.readAsDataURL(file);
+              
+              }else{
+                // this.$Progress.fail();
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'file too large!',
+              })
+              }
+              }
+        },
         created() {
+          this.getProfilePhoto();
+
           axios.get("api/profile")
           .then(({ data }) => (this.form.fill(data)));
+
+        
         }
     }
 </script>

@@ -13,6 +13,9 @@ import moment from 'moment'
 // error messages
 import { Form, HasError} from 'vform'
 
+import Gate from "./Gate"; 
+Vue.prototype.$gate = new Gate(window.user);
+
 window.Form = Form;
 Vue.component(HasError.name,HasError)
 
@@ -31,11 +34,11 @@ const Toast = Swal.mixin({
   onOpen: (toast) => {
     toast.addEventListener('mouseenter', Swal.stopTimer)
     toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
+  } 
 })
 
 window.Toast  = Toast;
- window.Refresh =  new Vue();
+window.Refresh =  new Vue();
 
 // vue
 import Vue from 'vue'
@@ -93,6 +96,11 @@ Vue.component(
 Vue.component(
   'passport-personal-access-tokens',
   require('./components/passport/PersonalAccessTokens.vue')
+);
+
+Vue.component(
+  'not-found',
+  require('./components/NotFound.vue')
 );
 
 

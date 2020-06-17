@@ -28,6 +28,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('isAdmin');
         // returns the latest user info and constricts the page to entries
         return User::latest()->paginate(10);
     }
@@ -40,12 +41,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-// validation of selected fields
-        $this->validate($request,[
-            'name' => 'required|string|max:191',
-            'email' => 'required|string|email|max:191|unique:users',
-            'password' => 'required|string|min:6',
-        ]);
+   //validation of selected fields
+$this->validate($request,[
+    'name' => 'required|string|max:191',
+    'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
+    'password' => 'sometimes|required|string|min:6',
+]);
 
         // function creates an array of the fields in the form
         return User::create([
@@ -64,14 +65,37 @@ class UserController extends Controller
 {
         $user = auth('api')->user();
 
+
+        //validation of selected fields
+        $this->validate($request,[
+            'name' => 'required|string|max:191',
+            'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
+            'password' => 'required|sometimes|string|min:6',
+        ]);
+
+
         // return ['message' => 'Success'];
         // return $request->photo;
-        if ($request->photo){
-             $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+        $currentPhoto = $user->photo;
+        if ($request->photo != $currentPhoto){
+            $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+            \Image::make($request->photo)->save(public_path('images/profile/').$name); 
 
-            \Image::make($request->photo)->save(public_path('images/profile/').$name);
+            $request->merge(['photo'=> $name]);
+
+            $userPhoto = public_path('images/profile/').$currentPhoto;
+            if(file_exists($userPhoto)){
+                @unlink($userPhoto);
+            }
         }
         
+
+        if(!empty($request->password)){
+            $request->merge(['password' => Hash::make($request['password'])]);
+        }
+            $user->update($request->all());
+            return ['message' => "success"];
+            
         
 
     }
@@ -100,7 +124,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
         $user = User::FindOrFail($id);
 
         $this->validate($request,[
@@ -120,6 +144,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('isAdmin'); 
         $user = User::FindOrFail($id);
 
         // Delete the user
