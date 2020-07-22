@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -38,6 +37,9 @@ Route::get('/pricing', function () {
     return view('pricing');
 })->middleware('auth');
 
-	Auth::routes(['verify' => true]);
-
+    Auth::routes(['verify' => true]);
+    
 Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('{any}', function () {
+        return view('home');
+    })->where('any','.*');

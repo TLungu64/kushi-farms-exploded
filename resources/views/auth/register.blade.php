@@ -39,6 +39,23 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="type" class="col-md-4 col-form-label text-md-right">{{ __('type') }}</label>
+
+                            <div class="col-md-6">
+                                <select id="type" type="text" class="form-control{{ $errors->has('type') ? ' is-invalid' : '' }}" name="type" value="{{ old('type') }}" required autofocus>
+                                    <option value="">Select User Role</option>
+                                    <option value="admin">admin</option>
+                                    <option value="user">standard user</option>
+                                    <option value="author">author</option>
+                                </select>
+                                @if ($errors->has('type'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('type') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
 
                         <div class="form-group row">
@@ -56,7 +73,7 @@
                         </div>
 
 
-                         <div class="form-group row">
+                        <div class="form-group row">
                             <label for="organisation" class="col-md-4 col-form-label text-md-right">{{ __('organisation') }}</label>
 
                             <div class="col-md-6">
