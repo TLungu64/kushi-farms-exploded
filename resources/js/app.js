@@ -16,7 +16,7 @@ import { Form, HasError} from 'vform'
 import Gate from "./Gate"; 
 Vue.prototype.$gate = new Gate(window.user);
 
-window.Form = Form;
+window.Form = Form;  
 Vue.component(HasError.name,HasError)
 
 // sweetalert
@@ -37,8 +37,11 @@ const Toast = Swal.mixin({
   } 
 })
 
+window.Fire  = new Vue();
 window.Toast  = Toast;
 window.Refresh =  new Vue();
+
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 // vue
 import Vue from 'vue'
@@ -53,14 +56,15 @@ Vue.use(VueProgressBar, {
   failedColor: 'red',
   height:'3px'
   
-});
+}); 
 
 // vue routes
 let routes = [
   { path: '/dashboard', component: require('./components/Dashboard.vue') },
   { path: '/developer', component: require('./components/Developer.vue') },
   { path: '/profile', component: require('./components/Profile.vue') },
-    { path: '/users', component: require('./components/Users.vue') }
+    { path: '/users', component: require('./components/Users.vue') }, 
+    { path: '*', component: require('./components/NotFound.vue') }
   ]
 
   // router has normal url 
@@ -108,7 +112,19 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 
 const app = new Vue({ 
     el: '#app',
-    router
+    router ,
+    data: {
+      search: ''
+    },
+    methods:{
+      searchit: _.debounce(()=>{
+        
+        Fire.$emit('searching');
+      },1000)
+        // console.log("searching...")
+        
+      
+    }
 });
 // function newFunction() {
 //   window.toast = toast;

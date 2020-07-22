@@ -1,4 +1,4 @@
- 
+
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -28,16 +28,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </li>
     </ul>
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
+    
       <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control form-control-navbar" @keyup ="searchit" v-model="search" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
+          <button class="btn btn-navbar" @click="searchit">
             <i class="fas fa-search"></i>
           </button>
         </div>
       </div>
-    </form>
+  
   </nav>
   <!-- /.navbar -->
 
@@ -137,7 +137,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                   @csrf
               </form>
-             </li>
+            </li>
 
             </ul>
           </li>
