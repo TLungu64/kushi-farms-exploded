@@ -8,15 +8,20 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import{Form,HasError,AlertError} from 'vform'
+window.Vue = require('admin-lte');
 
 import Gate from "./Gate"; 
 Vue.prototype.$gate = new Gate(window.user);
 
+import moment from 'moment'
 window.Form = Form;  
 Vue.component(HasError.name,HasError)
+Vue.component(AlertError.name,AlertError)
 
 // sweetalert
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+
 window.Swal = Swal;
 
 
@@ -106,7 +111,6 @@ Vue.component(
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
-<<<<<<< HEAD
 const app = new Vue({ 
     el: '#app',
     router ,
@@ -122,8 +126,4 @@ const app = new Vue({
         
       
     }
-=======
-const app = new Vue({
-    el: '#app'
->>>>>>> d77485eb92002ce770f5fe5e7e799a5a37847d56
 });
