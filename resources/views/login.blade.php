@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Brand</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="css/app.css">
    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
@@ -33,8 +34,8 @@
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
                 </div>
                 <form>
-                    <div class="form-group"><label for="email">Email</label><input class="form-control item" type="text" id="email"></div>
-                    <div class="form-group"><label for="password">Password</label><input class="form-control" type="password" id="password"></div>
+                    <div class="form-group"><label for="email">Email</label><input class="form-control item" type="text" name="email"></div>
+                    <div class="form-group"><label for="password">Password</label><input class="form-control" type="password" name="password"></div>
                     <div class="form-group">
                         <div class="form-check"><input class="form-check-input" type="checkbox" id="checkbox"><label class="form-check-label" for="checkbox">Remember me</label></div>
                     </div><button class="btn btn-primary btn-block" type="button">Log In</button><a class="text-monospace" href="/registration" id="signup">Sign up</a></form>
@@ -47,8 +48,8 @@
                 <div class="col-sm-3">
                     <h5>Get started</h5>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Sign up</a></li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="registration">Sign up</a></li>
                         <li><a href="#">Downloads</a></li>
                     </ul>
                 </div>

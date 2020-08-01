@@ -15,22 +15,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 Route::get('/about-us', function () {
     return view('about-us');
 });
 
-Route::get('/login', function () {
-    return view('login');
-});
 
 Route::get('/contact-us', function () {
     return view('contact-us');
 });
 
 
-Route::get('/registration', function () {
-    return view('registration');
-});
 
 Route::get('/features', function () {
     return view('features');
@@ -39,8 +35,11 @@ Route::get('/features', function () {
 
 Route::get('/pricing', function () {
     return view('pricing');
-});
+})->middleware('auth');
 
-/*	Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');*/
+    Auth::routes(['verify' => true]);
+    
+Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('{any}', function () {
+        return view('home');
+    })->where('any','.*');
