@@ -16,10 +16,8 @@ class CreateInventorysTable extends Migration
         Schema::create('inventorys', function (Blueprint $table) {
             $table->increments('id');          
             $table->string('name');
-            $table->string('itemType');
+            $table->string('category');
             $table->string('unitOfMeasure')->default('KG');
-            $table->string('pricePerUnit');
-            $table->string('available');
             $table->string('photo')->default('profile.png');
             $table->rememberToken();
             $table->timestamps();

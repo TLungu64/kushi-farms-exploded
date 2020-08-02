@@ -98,7 +98,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="nav-item">
                 <router-link to="/users" class="nav-link ">
                   <i class=" nav-icon fas fa-users cyan"></i>
-                  <p>User management</p>
+                  <p>Users</p>
                 </router-link>
             </li>
 
@@ -126,7 +126,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <router-link to="/inventory" class="nav-link">
               <i class="nav-icon fas fa-user yellow"></i>
               <p>
-                Inventory Management
+                Inventory 
+              </p>  
+            </router-link>
+            </li>
+
+            <li class="nav-item">
+            <router-link to="/stock" class="nav-link">
+              <i class="nav-icon fab fa-stack-overflow blue"></i> 
+              <p>
+              Stock
               </p>  
             </router-link>
             </li>

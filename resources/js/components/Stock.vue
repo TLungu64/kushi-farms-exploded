@@ -5,7 +5,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Inventory Table</h3>
+                <h3 class="card-title">Stock Table</h3>
 
                 <div class="card-tools">
                 <button class='btn btn-success' @click="newModal" >Add new <i class=" fas fa-user-plus fa-fw"></i>    
@@ -20,9 +20,11 @@
 
                     <tr>
                       <th>ID</th>
-                      <th>Name</th>
-                      <th>Category</th>
-                      <th>Unit of Measurement</th>
+                      <th>Inventory ID</th>
+                      <th>Date To Maturity</th>
+                      <th>Status</th>
+                      <th>Price</th>
+                      <th>Unit</th>
                       <th>Created At</th>
                       <th>Modify</th>
                     </tr>
@@ -31,18 +33,21 @@
 
                   <tbody>
 
-                    <tr v-for="inventory in inventorys.data" :key="inventory.id">
-                      <td>{{inventory.id}}</td>
-                      <td>{{inventory.name}}</td>
-                      <td>{{inventory.category|upText}}</td>
-                      <td>{{inventory.unitOfMeasure}}</td>
-                      <td>{{inventory.created_at | myDate}}</td>
+                    <tr v-for="stock in stocks.data" :key="stock.id">
+                      <td>{{stock.id}}</td>
+                      <td>{{stock.inventory_id}}</td>
+                      <td>{{stock.type}}</td>
+                      <td>{{stock.status}}</td>
+                      <td>{{stock.price}}</td>
+                      <td>{{stock.unit}}</td>
+                      <td>{{stock.dateToMaturity}}</td>
+                      <td>{{stock.created_at | myDate}}</td>
                       <td>
-                          <a href="#" @click ="editInventory(inventory)">
+                          <a href="#" @click ="editStock(stock)">
                           <i class="fa fa-edit"></i>
                       </a>
                       /
-                      <a href="#" @click="deleteInventory(inventory.id)">
+                      <a href="#" @click="deleteStock(stock.id)">
                           <i class="fa fa-trash red"></i>
                       </a>
                       </td>
@@ -52,7 +57,7 @@
               </div>  
               <!-- /.card-body -->
               <div class="card-footer">
-                <pagination :data="inventorys"
+                <pagination :data="stocks"
                 @pagination-change-page="getResults"></pagination>
               </div>
             </div>
@@ -69,56 +74,73 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" v-show="editmode" id="addnewLabel">Update Inventory Info</h5>
-        <h5 class="modal-title" v-show="!editmode" id="addnewLabel">Add New Inventory</h5>
+        <h5 class="modal-title" v-show="editmode" id="addnewLabel">Update Stock Info</h5>
+        <h5 class="modal-title" v-show="!editmode" id="addnewLabel">Add New Stock</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
 <!-- form for creating users that will appear in the addnew modal -->
-      <form  @submit.prevent="editmode ? updateInventory(): createInventory()">
+      <form  @submit.prevent="editmode ? updateStock(): createStock()">
       <div class="modal-body">
-        <div class="form-group">
-      <input v-model="form.name" type="text" name="name"
-      placeholder="Name"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
-      <has-error :form="form" field="name"></has-error>
-      </div>
+        <!-- <div class="form-group">
+      <input v-model="form.inventory_id" type="text" name="inventory_id"
+      placeholder="inventory_id"
+        class="form-control" :class="{ 'is-invalid': form.errors.has('inventory_id') }">
+      <has-error :form="form" field="inventory_id"></has-error>
+      </div> -->
 
     
 
-        <div class="form-group">
-      <select v-model="form.category" type="text" name="category"
-      placeholder="Select category"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('category') }">
-        <option value="">Select Item Type</option>
-        <option value="Livestock">Livestock</option>
-        <option value="Cashcrop"> Cashcrop</option>
-        <option value="Fisheries">Fisheries</option>
+        <div  class="form-group">
+      <select v-model="form.type" type="text" name="type"
+      placeholder="Select Type"
+        class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
+        <option value="">Select type</option>
+        <option value=""></option>
       </select>
-      <has-error :form="form" field="category"></has-error>
-      </div>
-    
-        <div class="form-group">
-      <select v-model="form.unitOfMeasure" type="text" name="unitOfMeasure"
-      placeholder="Select Unit"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('unitOfMeasure') }">
-        <option value="">Select Unit of Measurement</option>
-        <option value="KG">KG</option>
-        <option value="L"> L</option>
-        <option value="ton">ton</option>
-      </select>
-      <has-error :form="form" field="unitOfMeasure"></has-error>
+      <has-error :form="form" field="type"></has-error>
       </div>
 
+
         <div class="form-group">
-      <input v-model="form.photo" type="text" name="photo"
-      placeholder="photo"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('photo') }">
+      <input v-model="form.dateToMaturity" type="date" name="dateToMaturity"
+      placeholder="dateToMaturity"
+        class="form-control" :class="{ 'is-invalid': form.errors.has('dateToMaturity') }">
       <has-error :form="form" field="photo"></has-error>
     </div>
+
+        <div class="form-group">
+      <input v-model="form.price" type="text" name="price"
+      placeholder="price"
+        class="form-control" :class="{ 'is-invalid': form.errors.has('price') }">
+      <has-error :form="form" field="photo"></has-error>
+    </div>
+
+        <div class="form-group">
+      <input v-model="form.unit" type="text" name="unit"
+      placeholder="unit"
+        class="form-control" :class="{ 'is-invalid': form.errors.has('unit') }">
+      <has-error :form="form" field="unit"></has-error>
+    </div>
     
+    
+        <div class="form-group">
+      <select v-model="form.status" type="text" name="status"
+      placeholder="Select Item Type"
+        class="form-control" :class="{ 'is-invalid': form.errors.has('status') }">
+        <option value="">Select status</option>
+        <option value="AVBL">Available</option>
+        <option value="DEAD"> Dead</option>
+        <option value="STOL">Stolen</option>
+        <option value="SICK">Sick</option>
+        <option value="RESV">Reserved</option>
+        <option value="SOLD">sold</option>
+        <option value="INAC">inactive</option>
+      </select>
+      <has-error :form="form" field="status"></has-error>
+      </div>
 
       </div>
       <div class="modal-footer">
@@ -140,28 +162,46 @@
       data() {
         return{
           editmode : false,
-          inventorys : {},
+          stocks : {},
           form: new Form({
             // parsing the data retrieved into the relevant fields
             id : '',
-            name : '',
-            category: '',
-            unitOfMeasure: '',
-            photo: '' 
-          })
+            inventory_id : '',
+            dateToMaturity: '',
+            type : '',
+            status: '',
+            price: '',
+            unit: ''
+            
+          }
+          )
+
         } 
       },
+      // data() {
+      //   return{
+      //     editmode : false,
+      //     inventorys : {},
+      //     form: new Form({
+      //       // parsing the data retrieved into the relevant fields
+      //       id : '',
+      //       name : '',
+          
+            
+      //     })
+      //   }
+      // },
       methods: {
         getResults(page = 1) {
-          axios.get('api/inventory?page=' + page)
+          axios.get('api/stock?page=' + page)
           .then(response =>{
-            this.inventorys =response.data;
+            this.stocks =response.data;
           })
         },
-        updateInventory(){
+        updateStock(){
 // console.log('editing data');
          this.$Progress.start();
-        this.form.put('api/inventory/'+this.form.id)
+        this.form.put('api/stock/'+this.form.id)
         .then(()=>{
           // success
         Refresh.$emit('actionMade'); 
@@ -169,7 +209,7 @@
 
          Toast.fire({
                   icon: 'success',
-                  title: 'inventory updated successfully'
+                  title: 'stock updated successfully'
                 });
 
          this.$Progress.finish();
@@ -180,12 +220,17 @@
         });
         },
 
+        // loadInventory(){
+        //   if(this.$gate.isAdmin()){
+        //             axios.get("api/inventory").then(({ dat }) => (this.inventorys = dat));
+        //         }
+        // },
 
-        editInventory(inventory){
+        editStock(stock){
           this.editmode = true;
           this.form.reset();
           $('#addnew').modal('show')  
-          this.form.fill(inventory);
+          this.form.fill(stock);
         },
         
         newModal(){
@@ -195,7 +240,7 @@
             
         },
 
-        deleteInventory(id){
+        deleteStock(id){
 
           const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -217,7 +262,7 @@
 
                 // send request to the server 
                 if (result.value) {
-                this.form.delete('api/inventory/'+id);              
+                this.form.delete('api/stock/'+id);              
                   swalWithBootstrapButtons.fire(
                     'Deleted!',
                     'Your file has been deleted.',
@@ -239,20 +284,20 @@
         },
 
             // using axios to use the api controller to route the data and update the database with the same data
-             loadInventorys(){
+             loadStocks(){
                 if(this.$gate.isAdmin()){
-                    axios.get("api/inventory").then(({ data }) => (this.inventorys = data));
+                    axios.get("api/stock").then(({ data }) => (this.stocks = data));
                 }
             },
 
-        // method to create inventory via info given in form
-        createInventory(){
+        // method to create stock via info given in form
+        createStock(){
 
         // progress bar begins
         this.$Progress.start();
 
         //  posts http request to server with promise to validate and catch password exception 
-        this.form.post('api/inventory')
+        this.form.post('api/stock')
         .then(()=>{
 
                 // event initialization 
@@ -282,19 +327,19 @@ this.$Progress.fail();
         created() {
           Fire.$on('searching',() =>{
             let query = this.$parent.search;
-            axios.get('api/findInventory?q=' + query)
+            axios.get('api/findStock?q=' + query)
             .then((data) => {
-              this.inventorys = data.data
+              this.stocks = data.data
             })
             .catch(() => {
 
             })
           })
-            this.loadInventorys();
+            this.loadStocks();
 
             // Event component listening in to refresh
                 Refresh.$on('actionMade', () => {
-                  this.loadInventorys();
+                  this.loadStocks();
                 });
 
             // refreshes the page and sends a request every 3 seconds

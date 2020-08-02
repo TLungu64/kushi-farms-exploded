@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-// use Illuminate\Foundation\Auth\Inventory as Authenticatable;
+// use Illuminate\Foundation\Auth\Stock as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 
-class Inventory extends model
+class Stock extends model
 {
     use Notifiable,HasApiTokens;
 
@@ -18,7 +18,7 @@ class Inventory extends model
      * @var array
      */
     protected $fillable = [
-        'name', 'category','unitOfMeasure','photo'
+        'inventory_id', 'dateToMaturity','status','price', 'unit',
     ];
 
     /**
