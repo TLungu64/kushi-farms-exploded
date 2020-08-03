@@ -17,8 +17,8 @@ Route::get('/', function () {
 
 
 
-Route::get('/about-us', function () {
-    return view('about-us');
+Route::get('/our-story', function () {
+    return view('our-story');
 });
 
 
@@ -28,8 +28,8 @@ Route::get('/contact-us', function () {
 
 
 
-Route::get('/features', function () {
-    return view('features');
+Route::get('/our-produce', function () {
+    return view('our-produce');
 });
 
 
