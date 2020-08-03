@@ -1,80 +1,110 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+    <head>
+        <title>
+            Kushi Farms - @yield('title', 'Kushi Farms')
+        </title>
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO">
 
-     <title>{{ config('app.name', 'Laravel') }}</title>
-     
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+        <meta name="keywords" content="zambian bananas, zambian Farms, kushi farms, Inderbitzin, fresh produce, sustainable faming, compost, recycling, african agriculture, zambia agriculture">
+        <meta name="description" content="Located in Mkushi, central Zambia, Kushi Farms is one of the fastest growing farms in in the country. Specializing in fresh produce and live, we employ some of the worlds best eco farming technics to provide you with the healthiest produce">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,600italic' rel='stylesheet' type='text/css'>
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <style>
+            .cycle-overlay {
+                opacity: 0;
+            }
+        </style>
+        <!--[if IE]>
+            <style>
+            .cycle-overlay { opacity: 1;}
+            </style>
+            <![endif]-->
+
+        <link rel="stylesheet" type="text/css" href="css/kube.css" />
+        <link rel="stylesheet" type="text/css" href="css/master.css" />
+        <link rel="stylesHeet" type="text/css" href="css/model.css">
+
+        <!-- Iconmoon fonts -->
+        <link rel="stylesheet" href="/css/icons/style.css" />
+        <!--[if lte IE 7]><script src="/assets/icons/lte-ie7.js"></script><![endif]-->
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script src="js/jquery.cycle2.min.js"></script>
+
+        <!--[if lt IE 9]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+            <![endif]-->
+
+        <link rel="stylesheet" type="text/css" href="lib/shadowbox/shadowbox.css">
+        <script type="text/javascript" src="lib/shadowbox/shadowbox.js"></script>
+        <script type="text/javascript">
+            Shadowbox.init();
+        </script>
     </head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                    </div>
-                            </li>
-                        @endguest
-                    </ul>
+    <body>
+        <script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function() {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    
+            ga('create', 'UA-45448141-1', 'swissfarms.com.au');
+            ga('send', 'pageview');
+        </script>
+    
+        <div id="page">
+    
+            <header>
+                <div class="container innerContent">
+                    <div class="quarter logo">
+                        <a href="/index.html"><img src="images/kushi_farms_logo_2.png" alt="Kushi Farms" /></a>
+                        <p class="introLarge">
+                            kushi farms
+                        </p>
+                    </div>
+                    <div class="nav threequarter">
+                        <ul id="mainNav">
+                            <li><a href="/our-produce.html">Our Produce</a></li>
+                            <li><a href="/our-story.html">Our Story</a></li>
+                            <li><a href="/contact-us.html">Contact Us</a></li>
+                            <li><button onclick="document.getElementById('id01').style.display='inline-block'" style="width:auto;">Login</button></li>
+                        </ul>
+                    </div>
                 </div>
+            </header>
+
+            <div class="row">
+                @yield('siteHeader')
             </div>
-        </nav>
 
-        <main class="py-4">
-            @yield('content')
             
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
 
-</body>
-  
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+            
+    </body>
 </html>
