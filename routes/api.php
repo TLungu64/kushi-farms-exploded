@@ -28,6 +28,7 @@ Route::apiResources([
     'user' => 'API\UserController',
     'stock' => 'API\StockController',
     'inventory' => 'API\InventoryController',
+    'dashboard' => 'API\DashboardController',
 
 ]);
 Route::get('profile','API\UserController@profile');
@@ -41,3 +42,4 @@ Route::put('profile','API\InventoryController@updateProfile');
 Route::get('profile','API\StockController@profile');
 Route::get('findStock','API\StockController@search');
 Route::put('profile','API\StockController@updateProfile');
+

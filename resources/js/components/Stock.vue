@@ -22,6 +22,7 @@
                       <th>ID</th>
                       <th>Inventory ID</th>
                       <th>Date To Maturity</th>
+                      <th>Type</th>
                       <th>Status</th>
                       <th>Price</th>
                       <th>Unit</th>
@@ -36,11 +37,11 @@
                     <tr v-for="stock in stocks.data" :key="stock.id">
                       <td>{{stock.id}}</td>
                       <td>{{stock.inventory_id}}</td>
+                      <td>{{stock.dateToMaturity}}</td>
                       <td>{{stock.type}}</td>
                       <td>{{stock.status}}</td>
                       <td>{{stock.price}}</td>
                       <td>{{stock.unit}}</td>
-                      <td>{{stock.dateToMaturity}}</td>
                       <td>{{stock.created_at | myDate}}</td>
                       <td>
                           <a href="#" @click ="editStock(stock)">
@@ -84,12 +85,12 @@
 <!-- form for creating users that will appear in the addnew modal -->
       <form  @submit.prevent="editmode ? updateStock(): createStock()">
       <div class="modal-body">
-        <!-- <div class="form-group">
+        <div class="form-group">
       <input v-model="form.inventory_id" type="text" name="inventory_id"
       placeholder="inventory_id"
         class="form-control" :class="{ 'is-invalid': form.errors.has('inventory_id') }">
       <has-error :form="form" field="inventory_id"></has-error>
-      </div> -->
+      </div>
 
     
 
@@ -98,7 +99,11 @@
       placeholder="Select Type"
         class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
         <option value="">Select type</option>
-        <option value=""></option>
+        <option value="COW">Cow</option>
+        <option value="Sheep">Sheep</option>
+        <option value="maize">maize</option>
+        <option value="bananas">bananas</option>
+        <option value="fish">fish</option>
       </select>
       <has-error :form="form" field="type"></has-error>
       </div>
@@ -222,7 +227,7 @@
 
         // loadInventory(){
         //   if(this.$gate.isAdmin()){
-        //             axios.get("api/inventory").then(({ dat }) => (this.inventorys = dat));
+        //             axios.get("api/inventory").then(({ data }) => (this.inventorys = data));
         //         }
         // },
 
@@ -284,7 +289,7 @@
         },
 
             // using axios to use the api controller to route the data and update the database with the same data
-             loadStocks(){
+            loadStocks(){
                 if(this.$gate.isAdmin()){
                     axios.get("api/stock").then(({ data }) => (this.stocks = data));
                 }
@@ -336,6 +341,7 @@ this.$Progress.fail();
             })
           })
             this.loadStocks();
+            
 
             // Event component listening in to refresh
                 Refresh.$on('actionMade', () => {
