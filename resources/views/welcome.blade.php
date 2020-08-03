@@ -1,182 +1,171 @@
+@extends('layouts.app')
 
-<!DOCTYPE html>
-<html>
+@section('title')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Home - Brand</title>
-    <link rel="stylesheet" type="text/css" href="css/app.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-</head>
+    Home
 
-<body>
-    <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-        <div class="container"><a class="navbar-brand logo" href="#"><strong>Kushi</strong> Farms</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div
-                class="collapse navbar-collapse" id="navcol-1">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="/index">Home</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/features">Features</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/pricing">Pricing</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/about-us">About Us</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/contact-us">Contact Us</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/login">log in</a></li>
-                </ul>
-        </div>
-        </div>
-    </nav>
-    <main class="page landing-page">
-        <section class="clean-block clean-hero" style="background-image:url(&quot;images/farm/banana_plantation.jpeg&quot;);color:rgba(124,252,0, 0.55);">
-            <div class="text">
-                <h2><strong>Kushi Farms</strong></h2>
-                <p><br><em>“Agriculture is our wisest pursuit, because it will in the end contribute most to real wealth, good morals, and happiness.” — Thomas Jefferson</em><br><br></p><button class="btn btn-outline-light btn-lg" type="button">Learn More</button></div>
-        </section>
-        <section class="clean-block clean-info dark">
-            <div class="container">
-                <div class="block-heading">
-                    <h2 class="text-warning" id="header">Info</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-md-6"><img class="img-thumbnail" src="images/farm/WhatsApp Image 2020-03-31 at 12.20.06.jpeg"></div>
-                    <div class="col-md-6">
-                        <h3>Cause we care</h3>
-                        <div class="getting-started-info">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        </div><button class="btn btn-outline-primary btn-lg" type="button">Hear this</button></div>
-                </div>
-            </div>
-        </section>
-        <section class="clean-block features">
-            <div class="container">
-                <div class="block-heading">
-                    <h2 class="text-muted">Our products</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-md-5 feature-box"><i class="icon ion-ios-checkmark-outline icon"></i>
-                        <h4>Cash crops</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                    </div>
-                    <div class="col-md-5 feature-box"><i class="icon-check icon"></i>
-                        <h4>Live stock</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                    </div>
-                    <div class="col-md-5 feature-box"><i class="icon-check icon"></i>
-                        <h4>Fishery</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                    </div>
-                    <div class="col-md-5 feature-box"><i class="icon-check icon"></i>
-                        <h4>Other services</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="clean-block slider dark">
-            <div class="container">
-                <div class="block-heading">
-                    <h2 class="text-info">Have a look</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                </div>
-                <div class="carousel slide" data-ride="carousel" id="carousel-1">
-                    <div class="carousel-inner" role="listbox">
-                        <div class="carousel-item active"><img class="w-100 d-block" src="images/farm/WhatsApp Image 2020-03-31 at 12.20.08.jpeg" alt="Slide Image"></div>
-                        <div class="carousel-item"><img class="w-100 d-block" src="images/farm/WhatsApp Image 2020-03-31 at 12.14.14.jpeg" alt="Slide Image"></div>
-                        <div class="carousel-item"><img class="w-100 d-block" src="farm/WhatsApp Image 2020-03-31 at 12.20.27.jpeg" alt="Slide Image"></div>
-                    </div>
-                    <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><span class="carousel-control-prev-icon"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button"
-                            data-slide="next"><span class="carousel-control-next-icon"></span><span class="sr-only">Next</span></a></div>
-                    <ol class="carousel-indicators">
-                        <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-1" data-slide-to="1"></li>
-                        <li data-target="#carousel-1" data-slide-to="2"></li>
-                    </ol>
-                </div>
-            </div>
-        </section>
-        <section class="clean-block about-us">
-            <div class="container">
-                <div class="block-heading">
-                    <h2 class="text-info">About Us</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="images/avatars/avatar1.jpg">
-                            <div class="card-body info">
-                                <h4 class="card-title">John Smith</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="images/avatars/avatar2.jpg">
-                            <div class="card-body info">
-                                <h4 class="card-title">Robert Downturn</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4">
-                        <div class="card clean-card text-center"><img class="card-img-top w-100 d-block" src="images/avatars/avatar3.jpg">
-                            <div class="card-body info">
-                                <h4 class="card-title">Ally Sanders</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                <div class="icons"><a href="#"><i class="icon-social-facebook"></i></a><a href="#"><i class="icon-social-instagram"></i></a><a href="#"><i class="icon-social-twitter"></i></a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer class="page-footer dark">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-3">
-                    <h5>Get started</h5>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Sign up</a></li>
-                        <li><a href="#">Downloads</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h5>About us</h5>
-                    <ul>
-                        <li><a href="#">Company Information</a></li>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">Reviews</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h5>Support</h5>
-                    <ul>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Help desk</a></li>
-                        <li><a href="#">Forums</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h5>Legal</h5>
-                    <ul>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Terms of Use</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
+@endsection
+
+@section('header')
+
+    <div class="cycle-slideshow noMobile noPad" data-cycle-fx="fadeout" data-cycle-slides="> div" data-cycle-timeout="8000">
+        <div style="background:url(images/plantation_3.jpeg)  no-repeat center center;">
+            <div class="cycle-overlay">
+                <h1>
+                    For the love of family <br /> For the love of farming <br /> For fresh produce
+                </h1>
+                <p>
+
+
+
+                </p>
             </div>
         </div>
-        <div class="footer-copyright">
-            <p>© 2018 Copyright Text</p>
-        </div>
-    </footer>
-   <script src="js/app.js"></script>
-</body>
+        <div style="background:url(images/cattle_3.jpeg)  no-repeat center center;">
+            <div class="cycle-overlay">
+                <h1>
+                    We do it for you<br />
+                </h1>
+                <p>
 
-</html>
+                    <!-- Go to page -->
+                    <a href="/our-story/" class="button">Our Story</a>
+
+                </p>
+            </div>
+        </div>
+        <div style="background:url(images/bananas_6.jpeg)  no-repeat center center;">
+            <div class="cycle-overlay">
+                <h1>The best in organic farming</h1>
+                <p>
+
+                    <!-- Go to page -->
+                    <a href="/next-gen-compost/" class="button">Learn more</a>
+
+                </p>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@section('mobileHero')
+
+    <img src="images/cattle_3.jpeg" />
+    
+@endsection
+
+@section('sideBar')
+
+    <h2>Our Prices</h2>
+    <p>
+        <table class="table table-bordered">
+            <!-- <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">price</th>
+                </tr>
+                </thead> -->
+            <tbody>
+                <tr>
+                    <th scope="row">cattle</th>
+                    <td>K5000/head</td>
+                </tr>
+                <tr>
+                    <th scope="row">bananas</th>
+                    <td>K400/ton</td>
+                </tr>
+                <tr>
+                    <th scope="row">goats</th>
+                    <td colspan="2">K250/head</td>
+                </tr>
+            </tbody>
+        </table>
+    </p>
+    <p>
+        <h6><a href="/our-produce">Show More...</a></h6>
+    </p>
+    <h2>Contact Us</h2>
+    <p>
+        Looking to hear from us for all other enquiries please do not hesitate to contact us:
+    </p>
+    <div aria-hidden="true" data-icon="&#xe002;" class="contact">
+        +260 97 7567533
+    </div>
+    <div aria-hidden="true" data-icon="&#xe000;" class="contact">
+        <a href="mailto:info@kushifarms.com">
+            info@kushifarms.com
+        </a>
+    </div>
+    <div aria-hidden="true" data-icon="&#xe001;" class="contact">
+        <a href="https://maps.google.com.au/maps?q=Lakeland,+Queensland,+Australia&hl=en&sll=-15.802825,144.854736&sspn=6.593014,11.689453&gl=au&hnear=Lakeland+Queensland&t=m&z=9&iwloc=A" target="_blank">Mkushi, Zambia</a></div>
+    
+@endsection
+
+@section('mainContent')
+    
+    <div class="row introPanel">
+        <p class="introLarge">
+            Leading producers of fresh produce and organically grown live stock.
+        </p>
+    </div>
+    <div class="container">
+        <div class="half">
+
+            <div class="row homePanel">
+                <img src="images/customers.jpeg" alt="Our Vision">
+                <h3>Our Vision</h3>
+                <p>
+                    We aim to the the countries leading producer of fresh produce and purely organically grown live stock.
+                </p>
+                <!-- Go to page -->
+                <a href="/vision/" class="button">
+                    Read More
+                </a>
+            </div>
+            <div class="row homePanel">
+                <img src="images/plantation_1.jpeg" alt="Next-Gen Compost">
+                <h3>
+                    Organic Farming
+                </h3>
+                <p>
+                    Organic wast produced on our farm is used to produce compost. This is part of our commitment in producing heathier and naturally grown food.
+                </p>
+
+                <!-- Go to page -->
+                <a href="/next-gen-compost/" class="button">Read more</a>
+            </div>
+        </div>
+
+        <div class="half">
+            <div class="row homePanel">
+                <img src="images/delivary_1.jpeg" alt="Work for Us">
+                <h3>
+                    Work with Us
+                </h3>
+                <p>
+                    We produce all year round and always looking enthusiastic people to join the the family.<br /><br />
+                </p>
+
+                <!-- Go to page -->
+                <a href="/work-us/" class="button">Read More</a>
+            </div>
+            <div class="row homePanel">
+                <img src="images/irrigation.jpeg" alt="Our Location">
+                <h3>
+                    Our Location
+                </h3>
+                <p>
+                    Rich soils and favorable wether give as the advantage of producing the best and healthiest of cash crops and livestock. <br /><br />
+                </p>
+
+                <!-- Go to page -->
+                <a href="/location/" class="button">
+                    Read More
+                </a>
+            </div>
+        </div>
+        <div id="sideBar" class="third homeSide noPad mobileOnly "></div>
+    </div>
+
+@endsection
