@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Stock;
 
 
-class StockController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Create a new controller instance.

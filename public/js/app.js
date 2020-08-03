@@ -77852,11 +77852,336 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        console.log('Component mounted.');
+  data: function data() {
+    return {
+      editmode: false,
+      stocks: {},
+      form: new Form({
+        // parsing the data retrieved into the relevant fields
+        id: '',
+        inventory_id: '',
+        dateToMaturity: '',
+        type: '',
+        status: '',
+        price: '',
+        unit: ''
+
+      })
+
+    };
+  },
+
+  // data() {
+  //   return{
+  //     editmode : false,
+  //     inventorys : {},
+  //     form: new Form({
+  //       // parsing the data retrieved into the relevant fields
+  //       id : '',
+  //       name : '',
+
+
+  //     })
+  //   }
+  // },
+  methods: {
+    getResults: function getResults() {
+      var _this = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+      axios.get('api/stock?page=' + page).then(function (response) {
+        _this.stocks = response.data;
+      });
+    },
+    updateStock: function updateStock() {
+      var _this2 = this;
+
+      // console.log('editing data');
+      this.$Progress.start();
+      this.form.put('api/stock/' + this.form.id).then(function () {
+        // success
+        Refresh.$emit('actionMade');
+        $('#addnew').modal('hide');
+
+        Toast.fire({
+          icon: 'success',
+          title: 'stock updated successfully'
+        });
+
+        _this2.$Progress.finish();
+      }).catch(function () {
+        _this2.$Progress.fail();
+      });
+    },
+
+
+    // loadInventory(){
+    //   if(this.$gate.isAdmin()){
+    //             axios.get("api/inventory").then(({ data }) => (this.inventorys = data));
+    //         }
+    // },
+
+    editStock: function editStock(stock) {
+      this.editmode = true;
+      this.form.reset();
+      $('#addnew').modal('show');
+      this.form.fill(stock);
+    },
+    newModal: function newModal() {
+      this.editmode = false;
+      this.form.reset();
+      $('#addnew').modal('show');
+    },
+    deleteStock: function deleteStock(id) {
+      var _this3 = this;
+
+      var swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      });
+
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        reverseButtons: false
+      }).then(function (result) {
+
+        // send request to the server 
+        if (result.value) {
+          _this3.form.delete('api/stock/' + id);
+          swalWithBootstrapButtons.fire('Deleted!', 'Your file has been deleted.', 'success');
+          Refresh.$emit('actionMade');
+        } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel) {
+          Toast.fire({
+            icon: 'error',
+            title: 'deletion aborted'
+          });
+        }
+      });
+    },
+
+
+    // using axios to use the api controller to route the data and update the database with the same data
+    loadStocks: function loadStocks() {
+      var _this4 = this;
+
+      if (this.$gate.isAdmin()) {
+        axios.get("api/stock").then(function (_ref) {
+          var data = _ref.data;
+          return _this4.stocks = data;
+        });
+      }
+    },
+
+
+    // method to create stock via info given in form
+    createStock: function createStock() {
+      var _this5 = this;
+
+      // progress bar begins
+      this.$Progress.start();
+
+      //  posts http request to server with promise to validate and catch password exception 
+      this.form.post('api/stock').then(function () {
+
+        // event initialization 
+        Refresh.$emit('actionMade');
+        // hides the modal once the user is created
+        // the addnew is the modal id 
+        $('#addnew').modal('hide');
+
+        // splashes the sweet alert feature showing that the user has been successfully created
+        Toast.fire({
+          icon: 'success',
+          title: 'Signed in successfully'
+        });
+
+        // progress bar ends 
+        _this5.$Progress.finish();
+      }).catch(function () {
+        _this5.$Progress.fail();
+      });
     }
+  },
+  created: function created() {
+    var _this6 = this;
+
+    Fire.$on('searching', function () {
+      var query = _this6.$parent.search;
+      axios.get('api/findStock?q=' + query).then(function (data) {
+        _this6.stocks = data.data;
+      }).catch(function () {});
+    });
+    this.loadStocks();
+
+    // Event component listening in to refresh
+    Refresh.$on('actionMade', function () {
+      _this6.loadStocks();
+    });
+
+    // refreshes the page and sends a request every 3 seconds
+    // setInterval(() => this.loadUsers(),3000);
+  }
 });
 
 /***/ }),
@@ -77867,30 +78192,566 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _vm.$gate.isAdmin()
+        ? _c("div", { staticClass: "row mt-5" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("div", { staticClass: "card" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body table-responsive p-0" }, [
+                  _c(
+                    "table",
+                    { staticClass: "table table-hover text-nowrap" },
+                    [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.stocks.data, function(stock) {
+                          return _c("tr", { key: stock.id }, [
+                            _c("td", [_vm._v(_vm._s(stock.id))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(stock.inventory_id))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(stock.dateToMaturity))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(stock.type))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(stock.status))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(stock.price))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(stock.unit))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(_vm._s(_vm._f("myDate")(stock.created_at)))
+                            ]),
+                            _vm._v(" "),
+                            _c("td")
+                          ])
+                        }),
+                        0
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "card-footer" },
+                  [
+                    _c("pagination", {
+                      attrs: { data: _vm.stocks },
+                      on: { "pagination-change-page": _vm.getResults }
+                    })
+                  ],
+                  1
+                )
+              ])
+            ])
+          ])
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    !_vm.$gate.isAdmin() ? _c("div", [_c("not-found")], 1) : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "addnew",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "addnewLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog modal-dialog-centered" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _c(
+                "h5",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.editmode,
+                      expression: "editmode"
+                    }
+                  ],
+                  staticClass: "modal-title",
+                  attrs: { id: "addnewLabel" }
+                },
+                [_vm._v("Update Stock Info")]
+              ),
+              _vm._v(" "),
+              _c(
+                "h5",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.editmode,
+                      expression: "!editmode"
+                    }
+                  ],
+                  staticClass: "modal-title",
+                  attrs: { id: "addnewLabel" }
+                },
+                [_vm._v("Add New Stock")]
+              ),
+              _vm._v(" "),
+              _vm._m(2)
+            ]),
+            _vm._v(" "),
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    _vm.editmode ? _vm.updateStock() : _vm.createStock()
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "modal-body" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.inventory_id,
+                            expression: "form.inventory_id"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: {
+                          "is-invalid": _vm.form.errors.has("inventory_id")
+                        },
+                        attrs: {
+                          type: "text",
+                          name: "inventory_id",
+                          placeholder: "inventory_id"
+                        },
+                        domProps: { value: _vm.form.inventory_id },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "inventory_id",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "inventory_id" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.type,
+                              expression: "form.type"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: { "is-invalid": _vm.form.errors.has("type") },
+                          attrs: {
+                            type: "text",
+                            name: "type",
+                            placeholder: "Select Type"
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "type",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "" } }, [
+                            _vm._v("Select type")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "COW" } }, [
+                            _vm._v("Cow")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "Sheep" } }, [
+                            _vm._v("Sheep")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "maize" } }, [
+                            _vm._v("maize")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "bananas" } }, [
+                            _vm._v("bananas")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "fish" } }, [
+                            _vm._v("fish")
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "type" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.dateToMaturity,
+                            expression: "form.dateToMaturity"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: {
+                          "is-invalid": _vm.form.errors.has("dateToMaturity")
+                        },
+                        attrs: {
+                          type: "date",
+                          name: "dateToMaturity",
+                          placeholder: "dateToMaturity"
+                        },
+                        domProps: { value: _vm.form.dateToMaturity },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "dateToMaturity",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "photo" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.price,
+                            expression: "form.price"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: { "is-invalid": _vm.form.errors.has("price") },
+                        attrs: {
+                          type: "text",
+                          name: "price",
+                          placeholder: "price"
+                        },
+                        domProps: { value: _vm.form.price },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "price", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "photo" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.unit,
+                            expression: "form.unit"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: { "is-invalid": _vm.form.errors.has("unit") },
+                        attrs: {
+                          type: "text",
+                          name: "unit",
+                          placeholder: "unit"
+                        },
+                        domProps: { value: _vm.form.unit },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.form, "unit", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "unit" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.status,
+                              expression: "form.status"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          class: {
+                            "is-invalid": _vm.form.errors.has("status")
+                          },
+                          attrs: {
+                            type: "text",
+                            name: "status",
+                            placeholder: "Select Item Type"
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.form,
+                                "status",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { attrs: { value: "" } }, [
+                            _vm._v("Select status")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "AVBL" } }, [
+                            _vm._v("Available")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "DEAD" } }, [
+                            _vm._v(" Dead")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "STOL" } }, [
+                            _vm._v("Stolen")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "SICK" } }, [
+                            _vm._v("Sick")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "RESV" } }, [
+                            _vm._v("Reserved")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "SOLD" } }, [
+                            _vm._v("sold")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "INAC" } }, [
+                            _vm._v("inactive")
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "status" }
+                      })
+                    ],
+                    1
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("Close")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.editmode,
+                          expression: "editmode"
+                        }
+                      ],
+                      staticClass: "btn btn-success",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Update")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: !_vm.editmode,
+                          expression: "!editmode"
+                        }
+                      ],
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Create")]
+                  )
+                ])
+              ]
+            )
+          ])
+        ])
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card card-default" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("Dashboard Component")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an example component.\n                "
-              )
-            ])
-          ])
-        ])
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [_vm._v("Available Stock")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-tools" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Inventory ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Date To Maturity")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Type")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Price")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Unit")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Created At")])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   }
 ]
 render._withStripped = true
@@ -78963,6 +79824,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -79032,7 +79898,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     // loadInventory(){
     //   if(this.$gate.isAdmin()){
-    //             axios.get("api/inventory").then(({ dat }) => (this.inventorys = dat));
+    //             axios.get("api/inventory").then(({ data }) => (this.inventorys = data));
     //         }
     // },
 
@@ -79197,6 +80063,8 @@ var render = function() {
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(stock.inventory_id))]),
                             _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(stock.dateToMaturity))]),
+                            _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(stock.type))]),
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(stock.status))]),
@@ -79204,8 +80072,6 @@ var render = function() {
                             _c("td", [_vm._v(_vm._s(stock.price))]),
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(stock.unit))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(stock.dateToMaturity))]),
                             _vm._v(" "),
                             _c("td", [
                               _vm._v(_vm._s(_vm._f("myDate")(stock.created_at)))
@@ -79336,6 +80202,50 @@ var render = function() {
                     "div",
                     { staticClass: "form-group" },
                     [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.inventory_id,
+                            expression: "form.inventory_id"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        class: {
+                          "is-invalid": _vm.form.errors.has("inventory_id")
+                        },
+                        attrs: {
+                          type: "text",
+                          name: "inventory_id",
+                          placeholder: "inventory_id"
+                        },
+                        domProps: { value: _vm.form.inventory_id },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "inventory_id",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "inventory_id" }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
                       _c(
                         "select",
                         {
@@ -79379,7 +80289,25 @@ var render = function() {
                             _vm._v("Select type")
                           ]),
                           _vm._v(" "),
-                          _c("option", { attrs: { value: "" } })
+                          _c("option", { attrs: { value: "COW" } }, [
+                            _vm._v("Cow")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "Sheep" } }, [
+                            _vm._v("Sheep")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "maize" } }, [
+                            _vm._v("maize")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "bananas" } }, [
+                            _vm._v("bananas")
+                          ]),
+                          _vm._v(" "),
+                          _c("option", { attrs: { value: "fish" } }, [
+                            _vm._v("fish")
+                          ])
                         ]
                       ),
                       _vm._v(" "),
@@ -79661,6 +80589,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("Inventory ID")]),
         _vm._v(" "),
         _c("th", [_vm._v("Date To Maturity")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Type")]),
         _vm._v(" "),
         _c("th", [_vm._v("Status")]),
         _vm._v(" "),

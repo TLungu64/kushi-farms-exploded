@@ -15,12 +15,15 @@ class CreateStocksTable extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('inventories_id')->unsigned();
-            $table->foreign('inventories_id')->references('id')->on('inventories');
+            // $table->integer('inventories_id')->unsigned();
+            // $table->foreign('inventories_id')->references('id')->on('inventories');
+
+            $table->string('inventory_id');
             $table->date('dateToMaturity');
-            $table->string('status');
-            $table->string('price');
-            $table->string('unit');
+            $table->string('type')->nullable();
+            $table->string('status')->nullable();
+            $table->string('price')->nullable();
+            $table->string('unit')->nullable();
             $table->timestamps();
         });
     }
