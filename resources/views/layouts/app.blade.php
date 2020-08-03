@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>
-            Kushi Farms - @yield('title', 'Kushi Farms')
+            Kushi Farms - @yield('title')
         </title>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO">
@@ -70,16 +70,16 @@
             <header>
                 <div class="container innerContent">
                     <div class="quarter logo">
-                        <a href="/index.html"><img src="images/kushi_farms_logo_2.png" alt="Kushi Farms" /></a>
+                        <a href="/"><img src="images/kushi_farms_logo_2.png" alt="Kushi Farms" /></a>
                         <p class="introLarge">
                             kushi farms
                         </p>
                     </div>
                     <div class="nav threequarter">
                         <ul id="mainNav">
-                            <li><a href="/our-produce.html">Our Produce</a></li>
-                            <li><a href="/our-story.html">Our Story</a></li>
-                            <li><a href="/contact-us.html">Contact Us</a></li>
+                            <li><a href="/our-produce">Our Produce</a></li>
+                            <li><a href="/our-story">Our Story</a></li>
+                            <li><a href="/contact-us">Contact Us</a></li>
                             <li><button onclick="document.getElementById('id01').style.display='inline-block'" style="width:auto;">Login</button></li>
                         </ul>
                     </div>
@@ -87,24 +87,88 @@
             </header>
 
             <div class="row">
-                @yield('siteHeader')
+                @yield('header')
             </div>
 
-            
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script>
-        // Get the modal
-        var modal = document.getElementById('id01');
+            <div class="mobileHero">
+                @yield('mobileHero')
+            </div>
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+            <div class="row innerContent">
+                <div id="sideBar" class="third homeSide noMobile">
+
+                    @yield('sideBar')
+
+                </div>
+                <div class="twothird">
+
+                    @yield('mainContent')
+                    
+                </div>
+            </div>
+        </div>
+
+        
+
+        <footer class="container innerContent">
+            <table style="width: 100%;" cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                    <tr>
+                        <td>Copyright Kushi Farms, Mkushi, Zambia</td>
+                        <td><strong>P:</strong> +260 97 7567533 <strong>E:</strong> info@kushifarms.com</td>
+                        <td>Website design by <a href="http://nimbisoft.com" target="_blank" rel="noopener">Nimbisoft Technologies</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </footer>  
+
+        <div id="id01" class="modal">
+
+            <form class="modal-content animate" action="/action_page.php" method="post">
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    <img src="images/kushi_farms_logo_2.png" alt="Logo" class="avatar">
+                    <p>
+                        <h3>
+                            Login
+                        </h3>
+                    </p>
+                </div>
+    
+                <div class="container">
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+    
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+    
+                    <button type="submit">Login</button>
+                    <label>
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>
+                </div>
+    
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </form>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script>
+            // Get the modal
+            var modal = document.getElementById('id01');
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
             }
-        }
-    </script>
+        </script>
             
     </body>
 </html>
