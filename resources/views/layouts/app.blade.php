@@ -6,13 +6,14 @@
         </title>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO">
-
+        
         <meta name="keywords" content="zambian bananas, zambian Farms, kushi farms, Inderbitzin, fresh produce, sustainable faming, compost, recycling, african agriculture, zambia agriculture">
         <meta name="description" content="Located in Mkushi, central Zambia, Kushi Farms is one of the fastest growing farms in in the country. Specializing in fresh produce and live, we employ some of the worlds best eco farming technics to provide you with the healthiest produce">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,600italic' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css2?family=Chilanka&display=swap" rel="stylesheet">
 
         <style>
             .cycle-overlay {
@@ -28,6 +29,14 @@
         <link rel="stylesheet" type="text/css" href="css/kube.css" />
         <link rel="stylesheet" type="text/css" href="css/master.css" />
         <link rel="stylesHeet" type="text/css" href="css/model.css">
+
+        {{-- ************************************************************************************************* --}}
+
+        {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
+
+        {{-- ************************************************************************************************ --}}
 
         <!-- Iconmoon fonts -->
         <link rel="stylesheet" href="/css/icons/style.css" />
@@ -77,6 +86,7 @@
                     </div>
                     <div class="nav threequarter">
                         <ul id="mainNav">
+                            <li><a href="/">Home</a></li>
                             <li><a href="/our-produce">Our Produce</a></li>
                             <li><a href="/our-story">Our Story</a></li>
                             <li><a href="/contact-us">Contact Us</a></li>
@@ -98,6 +108,7 @@
                 <div id="sideBar" class="third homeSide noMobile">
 
                     @yield('sideBar')
+                    <!-- Trigger the modal with a button -->
 
                 </div>
                 <div class="twothird">
@@ -116,11 +127,11 @@
                     <tr>
                         <td>Copyright Kushi Farms, Mkushi, Zambia</td>
                         <td><strong>P:</strong> +260 97 7567533 <strong>E:</strong> info@kushifarms.com</td>
-                        <td>Website design by <a href="http://nimbisoft.com" target="_blank" rel="noopener">Nimbisoft Technologies</a></td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
-        </footer>  
+        </footer>
 
         <div id="id01" class="modal">
 
@@ -135,7 +146,7 @@
                         </h3>
                     </p>
                 </div>
-    
+        
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-md-10">
@@ -144,10 +155,10 @@
                                     <div class="card-body">
                                         <div class="form-group row">
                                             <label for="email" class="col-md-4 col-form-label text-md-right"><strong>{{ __('E-Mail Address') }}</strong></label>
-
+        
                                             <div class="col-md-6">
-                                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
-
+                                                <input id="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="emaul" value="{{ old('email') }}" required autofocus>
+        
                                                 @if ($errors->has('email'))
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $errors->first('email') }}</strong>
@@ -158,10 +169,10 @@
         
                                         <div class="form-group row">
                                             <label for="password" class="col-md-4 col-form-label text-md-right"><strong>{{ __('Password') }}</strong></label>
-
+        
                                             <div class="col-md-6">
                                                 <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
+        
                                                 @if ($errors->has('password'))
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $errors->first('password') }}</strong>
@@ -184,12 +195,70 @@
                                             </div>
                                         </div>
                                         
-
+        
                                         <div class="container" style="background-color:#f1f1f1">
                                             <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
                                             <span class="psw">Forgot <a href="{{ route('password.request') }}">password?</a></span>
                                         </div>
+        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
 
+        <div class="modal" id="blackboard-model">
+            <form class="modal-content animate" action="{{ route('login') }}" method="post">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-10">
+                            <div class="card">
+                                <div class="card-header"></div>
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-10">
+                                                    <div style="background:url(images/blackboard.jpg)  no-repeat center center;">
+                                                        <p >
+                                                            <table style="font-family: 'Chilanka', cursive;
+                                                            color: white;
+                                                            font-size: 15px;
+                                                            vertical-align: top;
+                                                            margin-left: auto;
+                                                            margin-right: auto;">
+                                                                <tr>
+                                                                    <th><strong>Item</strong></th><th><strong>Unit Price</strong></th><th><strong>In Stock</strong></th><th><strong>Yet to Mature</strong></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Cattle </td><td>k5000 per/head</td><td>7</td><td>0</td><td><button type="button" class="btn btn-primary">Buy</button></td><td><button type="button" class="btn btn-warning">Reserve</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Goat </td><td>k300 per/head</td><td>200</td><td>23</td><td><button type="button" class="btn btn-primary">Buy</button></td><td><button type="button" class="btn btn-warning">Reserve</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Tomatoes </td><td>k60 per/Kg</td><td>9</td><td>4</td><td><button type="button" class="btn btn-primary">Buy</button></td><td><button type="button" class="btn btn-warning">Reserve</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Onions </td><td>k50 per/kg</td><td>58</td><td>3</td><td><button type="button" class="btn btn-primary">Buy</button></td><td><button type="button" class="btn btn-warning">Reserve</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Sheep </td><td>k500 per/head</td><td>63</td><td>45</td><td><button type="button" class="btn btn-primary">Buy</button></td><td><button type="button" class="btn btn-warning">Reserve</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Bananas </td><td>k100 per/kg</td><td>89</td><td>7</td><td><button type="button" class="btn btn-primary">Buy</button></td><td><button type="button" class="btn btn-warning">Reserve</button></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Turkey </td><td>k120 per/bird</td><td>8</td><td>16</td><td><button type="button" class="btn btn-primary">Buy</button></td><td><button type="button" class="btn btn-warning">Reserve</button></td>
+                                                                </tr>
+                                                            </table>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

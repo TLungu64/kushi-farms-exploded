@@ -56,35 +56,55 @@
 @endsection
 
 @section('sideBar')
-
-    <h2>Our Prices</h2>
-    <p>
-        <table class="table table-bordered">
-            <!-- <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">price</th>
-                </tr>
-                </thead> -->
-            <tbody>
-                <tr>
-                    <th scope="row">cattle</th>
-                    <td>K5000/head</td>
-                </tr>
-                <tr>
-                    <th scope="row">bananas</th>
-                    <td>K400/ton</td>
-                </tr>
-                <tr>
-                    <th scope="row">goats</th>
-                    <td colspan="2">K250/head</td>
-                </tr>
-            </tbody>
+<h2>Our prices</h2>
+<div style="background:url(images/blackboard.jpg)  no-repeat center center;">
+    <p >
+        <<table style="font-family: 'Chilanka', cursive;
+        color: white;
+        font-size: 15px;
+        vertical-align: top;">
+            <tr>
+                <th><strong>Item</strong></th><th><strong>Unit Price</strong></th><th><strong>In Stock</strong></th><th><strong>Yet to Mature</strong></th>
+            </tr>
+            <tr>
+                <td>
+                    Cattle</td><td>k5000 per/head</td><td>7</td><td>0</td>
+            </tr>
+            <tr>
+                <td>Goat</td><td>k300 per/head</td><td>200</td><td>23</td>
+            </tr>
+            <tr>
+                <td>Tomatoes</td><td>k60 per/Kg</td><td>9</td><td>4</td>
+            </tr>
+            <tr>
+                <td>Onions</td><td>k50 per/kg</td><td>58</td><td>3</td>
+            </tr>
+            <tr>
+                <td>Sheep</td><td>k500 per/head</td><td>63</td><td>45</td>
+            </tr>
+            <tr>
+                <td>Bananas</td><td>k100 per/kg</td><td>89</td><td>7</td>
+            </tr>
+            <tr>
+                <td>Turkey</td><td>k120 per/bird</td><td>8</td><td>16</td>
+            </tr>
         </table>
     </p>
-    <p>
-        <h6><a href="/our-produce">Show More...</a></h6>
-    </p>
+</div>
+
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#blackboard-model" style="width:auto; font-weight: 600;
+font-size: 12px;
+color: white;
+background: rgb(231, 163, 35);
+border-radius: 0.5em;
+padding: 0.5em 1em;
+text-transform: uppercase;
+text-decoration: none;
+margin-left: auto;
+margin-right: auto;">See more...</button>
+
+    <br />
+    <br />
     <h2>Contact Us</h2>
     <p>
         Looking to hear from us for all other enquiries please do not hesitate to contact us:

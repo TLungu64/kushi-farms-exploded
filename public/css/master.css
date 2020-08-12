@@ -359,6 +359,12 @@ form.application textarea {
     margin: 0 1em 1em 1em;
 }
 
+.blackboard p {
+    font-family: 'Chilanka', cursive;
+    color: white;
+    font-size: 16px;
+}
+
 #sideBar p {
     font-size: 13px;
     color: rgb( 94, 131, 58);
