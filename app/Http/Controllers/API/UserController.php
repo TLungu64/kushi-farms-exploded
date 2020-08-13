@@ -62,42 +62,43 @@ $this->validate($request,[
     }
     
     public function updateProfile(Request $request)
-{
+    {
         $user = auth('api')->user();
 
 
         //validation of selected fields
-        $this->validate($request,[
-            'firstname' => 'required|string|max:191',
-            'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
-            'password' => 'required|sometimes|string|min:6',
-        ]);
+        // $this->validate($request,[
+        //     'firstname' => 'required|string|max:191',
+        //     'lastname' => 'required|string|max:191',
+        //     'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
+        //     'password' => 'required|sometimes|string|min:6',
+        // ]);
 
 
         // return ['message' => 'Success'];
         // return $request->photo;
-        $currentPhoto = $user->photo;
-        if ($request->photo != $currentPhoto){
-            $firstname = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
-            \Image::make($request->photo)->save(public_path('images/profile/').$firstname); 
+        // $currentPhoto = $user->photo;
+        // if ($request->photo != $currentPhoto){
+        //     $firstname = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+        //     \Image::make($request->photo)->save(public_path('images/profile/').$firstname); 
 
-            $request->merge(['photo'=> $firstname]);
+        //     $request->merge(['photo'=> $firstname]);
 
-            $userPhoto = public_path('images/profile/').$currentPhoto;
-            if(file_exists($userPhoto)){
-                @unlink($userPhoto);
-            }
-        }
+        //     $userPhoto = public_path('images/profile/').$currentPhoto;
+        //     if(file_exists($userPhoto)){
+        //         @unlink($userPhoto);
+        //     }
+        // }
         
 
-        if(!empty($request->password)){
-            $request->merge(['password' => Hash::make($request['password'])]);
-        }
-            $user->update($request->all());
-            return ['message' => "success"];
+        // if(!empty($request->password)){
+        //     $request->merge(['password' => Hash::make($request['password'])]);
+        // }
+            
+        // $user->update($request->all());
             
         
-
+        return $request->photo;
     }
     public function profile()
     {

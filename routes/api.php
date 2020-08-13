@@ -35,11 +35,7 @@ Route::get('profile','API\UserController@profile');
 Route::get('findUser','API\UserController@search');
 Route::put('profile','API\UserController@updateProfile');
 
-Route::get('profile','API\InventoryController@profile');
 Route::get('findInventory','API\InventoryController@search');
-Route::put('profile','API\InventoryController@updateProfile');
 
-Route::get('profile','API\StockController@profile');
 Route::get('findStock','API\StockController@search');
-Route::put('profile','API\StockController@updateProfile');
 
