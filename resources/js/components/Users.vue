@@ -168,7 +168,8 @@
           })
         },
         updateUser(){
-// console.log('editing data');
+          
+        // console.log('editing data');
          this.$Progress.start();
         this.form.put('api/user/'+this.form.id)
         .then(()=>{
