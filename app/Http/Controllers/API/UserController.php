@@ -43,14 +43,14 @@ class UserController extends Controller
     {
    //validation of selected fields
 $this->validate($request,[
-    'name' => 'required|string|max:191',
+    'firstname' => 'required|string|max:191',
     'email' => 'required|string|email|max:191|unique:users',
     'password' => 'sometimes|required|string|min:6',
 ]);
 
         // function creates an array of the fields in the form
         return User::create([
-            'name'=> $request['name'],
+            'firstname'=> $request['firstname'],
             'lastname'=> $request['lastname'],
             'email'=> $request['email'],
             'type'=> $request['type'],
@@ -68,7 +68,7 @@ $this->validate($request,[
 
         //validation of selected fields
         $this->validate($request,[
-            'name' => 'required|string|max:191',
+            'firstname' => 'required|string|max:191',
             'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
             'password' => 'required|sometimes|string|min:6',
         ]);
@@ -78,10 +78,10 @@ $this->validate($request,[
         // return $request->photo;
         $currentPhoto = $user->photo;
         if ($request->photo != $currentPhoto){
-            $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
-            \Image::make($request->photo)->save(public_path('images/profile/').$name); 
+            $firstname = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+            \Image::make($request->photo)->save(public_path('images/profile/').$firstname); 
 
-            $request->merge(['photo'=> $name]);
+            $request->merge(['photo'=> $firstname]);
 
             $userPhoto = public_path('images/profile/').$currentPhoto;
             if(file_exists($userPhoto)){
@@ -128,7 +128,7 @@ $this->validate($request,[
         $user = User::FindOrFail($id);
 
         $this->validate($request,[
-            'name' => 'required|string|max:191',
+            'firstname' => 'required|string|max:191',
             'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
             'password' => 'sometimes|min:6',
         ]);
@@ -157,7 +157,7 @@ $this->validate($request,[
     public function search(){
         if ($search = \Request::get('q')) {
             $users = User::where(function($query) use ($search){
-                $query->where('name','LIKE',"%$search%")->orWhere('email','LIKE',"%$search%");
+                $query->where('firstname','LIKE',"%$search%")->orWhere('email','LIKE',"%$search%");
             })->paginate(20);
         }else{
             $users = User::latest()->paginate(5);

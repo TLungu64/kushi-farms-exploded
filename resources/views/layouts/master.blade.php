@@ -58,11 +58,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
         <div class="info">
           <a href="/profile" class="d-block">
-          {{Auth::user()->name}}
+          {{Auth::user()->firstname}}
         {{-- </p>
         {{Auth::user()->type}}
           <p> --}}
-          </a>`
+          </a>
         </div>
       </div>
       <!-- Sidebar Menu -->
@@ -84,7 +84,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <li class="nav-item">
               <router-link to="/profile" class="nav-link">
-                <i class="nav-icon fas fa-user"></i>
+                <i class="nav-icon fas fa-user pink"></i>
                 <p>
                   Profile
                 </p>
@@ -109,7 +109,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
               <li class="nav-item">
                 <router-link to="/inventory" class="nav-link">
-                  <i class="nav-icon fas fa-dolly-flatbed"></i>
+                  <i class="nav-icon fas fa-dolly-flatbed indigo"></i>
                   <p>
                     Inventory 
                   </p>  
@@ -118,7 +118,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
               <li class="nav-item">
                 <router-link to="/stock" class="nav-link">
-                  <i class="nav-icon fas fa-cubes"></i>
+                  <i class="nav-icon fas fa-cubes orange"></i>
                   <p>
                     Stock
                   </p>  

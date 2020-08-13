@@ -5,7 +5,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Users Table</h3>
+                <h3 class="card-title">Users</h3>
 
                 <div class="card-tools">
                 <button class='btn btn-success' @click="newModal" >Add new <i class=" fas fa-user-plus fa-fw"></i>    
@@ -35,7 +35,7 @@
 
                     <tr v-for="user in users.data" :key="user.id">
                       <td>{{user.id}}</td>
-                      <td>{{user.name}}</td>
+                      <td>{{user.firstname}} {{user.lastname}}</td>
                       <td>{{user.email}}</td>
                       <td>{{user.type | upText}}</td>
                       <td>{{user.bio}}</td>
@@ -82,67 +82,51 @@
 
 <!-- form for creating users that will appear in the addnew modal -->
       <form  @submit.prevent="editmode ? updateUser(): createUser()">
-      <div class="modal-body">
-        <div class="form-group">
-      <input v-model="form.name" type="text" name="name"
-      placeholder="Name"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
-      <has-error :form="form" field="name"></has-error>
-      </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input v-model="form.firstname" type="text" name="firstname" placeholder="First Name" class="form-control" :class="{ 'is-invalid': form.errors.has('firstname') }">
+            <has-error :form="form" field="name"></has-error>
+          </div>
 
-        <div class="form-group">
-      <input v-model="form.lastname" type="text" name="lastname"
-      placeholder="lastname"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('lastname') }">
-      <has-error :form="form" field="lastname"></has-error>
-      </div>
+          <div class="form-group">
+            <input v-model="form.lastname" type="text" name="lastname" placeholder="Last Name" class="form-control" :class="{ 'is-invalid': form.errors.has('lastname') }">
+            <has-error :form="form" field="lastname"></has-error>
+          </div>
 
-        <div class="form-group">
-      <input v-model="form.email" type="text" name="email"
-      placeholder="email"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
-      <has-error :form="form" field="email"></has-error>
-      </div>
+          <div class="form-group">
+            <input v-model="form.email" type="text" name="email" placeholder="Email" class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+              <has-error :form="form" field="email"></has-error>
+          </div>
 
-        <div class="form-group">
-      <input v-model="form.password" type="password" name="password" id="password"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
-      <has-error :form="form" field="password"></has-error>
-      </div>
+          <div class="form-group">
+            <input v-model="form.password" type="password" name="password" placeholder="Password" id="password" class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
+            <has-error :form="form" field="password"></has-error>
+          </div>
 
-        <div class="form-group">
-      <select v-model="form.type" type="text" name="type"
-      placeholder="type"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
-        <option value="">Select User Role</option>
-        <option value="admin">admin</option>
-        <option value="user">standard user</option>
-        <option value="author">author</option>
-      </select>
-      <has-error :form="form" field="type"></has-error>
-      </div>
+          <div class="form-group">
+            <select v-model="form.type" type="text" name="type" placeholder="User type" class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
+              <option value="">Select User Role</option>
+              <option value="admin">admin</option>
+              <option value="user">standard user</option>
+              <option value="author">author</option>
+            </select>
+            <has-error :form="form" field="type"></has-error>
+          </div>
 
-        <div class="form-group">
-      <textarea v-model="form.bio" type="text" name="bio"
-      placeholder="bio"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
-      <has-error :form="form" field="bio"></has-error>
-      </div>
+          <div class="form-group">
+            <textarea v-model="form.bio" type="text" name="bio" placeholder="Biography (optional)" class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
+            <has-error :form="form" field="bio"></has-error>
+          </div>
 
-        <div class="form-group">
-      <input v-model="form.photo" type="text" name="photo"
-      placeholder="photo"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('photo') }">
-      <has-error :form="form" field="photo"></has-error>
-    </div>
-        <div class="form-group">
-      <input v-model="form.organisation" type="text" name="organisation"
-      placeholder="organisation"
-        class="form-control" :class="{ 'is-invalid': form.errors.has('organisation') }">
-      <has-error :form="form" field="organisation"></has-error>
-    </div>
-    
+          <div class="form-group">
+            <input v-model="form.photo" type="text" name="photo" placeholder="Photograph" class="form-control" :class="{ 'is-invalid': form.errors.has('photo') }">
+            <has-error :form="form" field="photo"></has-error>
+          </div>
 
+          <div class="form-group">
+            <input v-model="form.organisation" type="text" name="organisation" placeholder="Organisation" class="form-control" :class="{ 'is-invalid': form.errors.has('organisation') }">
+            <has-error :form="form" field="organisation"></has-error>
+          </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -295,7 +279,7 @@
                 // splashes the sweet alert feature showing that the user has been successfully created
                 Toast.fire({
                   icon: 'success',
-                  title: 'Signed in successfully'
+                  title: 'User added successfully'
                 });
 
                 // progress bar ends 

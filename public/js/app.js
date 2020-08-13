@@ -36044,6 +36044,7 @@ __webpack_require__(154);
 
 window.Vue = __webpack_require__(17);
 
+
 window.Vue = __webpack_require__(177);
 
 
@@ -81595,22 +81596,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -81743,7 +81728,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         // splashes the sweet alert feature showing that the user has been successfully created
         Toast.fire({
           icon: 'success',
-          title: 'Signed in successfully'
+          title: 'User added successfully'
         });
 
         // progress bar ends 
@@ -81789,9 +81774,7 @@ var render = function() {
             _c("div", { staticClass: "col-md-12" }, [
               _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: "card-header" }, [
-                  _c("h3", { staticClass: "card-title" }, [
-                    _vm._v("Users Table")
-                  ]),
+                  _c("h3", { staticClass: "card-title" }, [_vm._v("Users")]),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-tools" }, [
                     _c(
@@ -81821,7 +81804,13 @@ var render = function() {
                           return _c("tr", { key: user.id }, [
                             _c("td", [_vm._v(_vm._s(user.id))]),
                             _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(user.name))]),
+                            _c("td", [
+                              _vm._v(
+                                _vm._s(user.firstname) +
+                                  " " +
+                                  _vm._s(user.lastname)
+                              )
+                            ]),
                             _vm._v(" "),
                             _c("td", [_vm._v(_vm._s(user.email))]),
                             _vm._v(" "),
@@ -81967,24 +81956,26 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.form.name,
-                            expression: "form.name"
+                            value: _vm.form.firstname,
+                            expression: "form.firstname"
                           }
                         ],
                         staticClass: "form-control",
-                        class: { "is-invalid": _vm.form.errors.has("name") },
+                        class: {
+                          "is-invalid": _vm.form.errors.has("firstname")
+                        },
                         attrs: {
                           type: "text",
-                          name: "name",
-                          placeholder: "Name"
+                          name: "firstname",
+                          placeholder: "First Name"
                         },
-                        domProps: { value: _vm.form.name },
+                        domProps: { value: _vm.form.firstname },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(_vm.form, "name", $event.target.value)
+                            _vm.$set(_vm.form, "firstname", $event.target.value)
                           }
                         }
                       }),
@@ -82016,7 +82007,7 @@ var render = function() {
                         attrs: {
                           type: "text",
                           name: "lastname",
-                          placeholder: "lastname"
+                          placeholder: "Last Name"
                         },
                         domProps: { value: _vm.form.lastname },
                         on: {
@@ -82054,7 +82045,7 @@ var render = function() {
                         attrs: {
                           type: "text",
                           name: "email",
-                          placeholder: "email"
+                          placeholder: "Email"
                         },
                         domProps: { value: _vm.form.email },
                         on: {
@@ -82094,6 +82085,7 @@ var render = function() {
                         attrs: {
                           type: "password",
                           name: "password",
+                          placeholder: "Password",
                           id: "password"
                         },
                         domProps: { value: _vm.form.password },
@@ -82134,7 +82126,7 @@ var render = function() {
                           attrs: {
                             type: "text",
                             name: "type",
-                            placeholder: "type"
+                            placeholder: "User type"
                           },
                           on: {
                             change: function($event) {
@@ -82200,7 +82192,7 @@ var render = function() {
                         attrs: {
                           type: "text",
                           name: "bio",
-                          placeholder: "bio"
+                          placeholder: "Biography (optional)"
                         },
                         domProps: { value: _vm.form.bio },
                         on: {
@@ -82238,7 +82230,7 @@ var render = function() {
                         attrs: {
                           type: "text",
                           name: "photo",
-                          placeholder: "photo"
+                          placeholder: "Photograph"
                         },
                         domProps: { value: _vm.form.photo },
                         on: {
@@ -82278,7 +82270,7 @@ var render = function() {
                         attrs: {
                           type: "text",
                           name: "organisation",
-                          placeholder: "organisation"
+                          placeholder: "Organisation"
                         },
                         domProps: { value: _vm.form.organisation },
                         on: {
