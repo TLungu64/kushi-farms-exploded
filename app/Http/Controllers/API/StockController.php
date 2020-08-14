@@ -26,7 +26,6 @@ class StockController extends Controller
      */
     public function index()
     {
-        $this->authorize('isAdmin');
         // returns the latest Stock info and constricts the page to entries
         return Stock::latest()->paginate(10);
 
@@ -96,7 +95,6 @@ $this->validate($request,[
      */
     public function destroy($id)
     {
-        $this->authorize('isAdmin'); 
         $stock = Stock::FindOrFail($id);
 
         // Delete the stock

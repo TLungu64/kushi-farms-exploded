@@ -19,7 +19,7 @@
                         <h5 class="widget-user-desc text-right">Web Designer</h5>
                     </div>
                     <div class="widget-user-image">
-                        <img class="img-circle" src="images/user.png" alt="User Avatar">
+                        <img class="img-circle" :src="getProfilePic()" alt="User Avatar">
                     </div>
                     <div class="card-footer">
                         <div class="row">
@@ -75,25 +75,29 @@
                       <div class="form-group row">
                         <label for="firstname" class="col-sm-2 col-form-label">First Name</label>
                         <div class="col-sm-10">
-                          <input type="text" v-model="form.firstname" class="form-control" id="firstname">
+                          <input type="text" v-model="form.firstname" class="form-control" id="firstname" :class="{ 'is-invalid': form.errors.has('firstname') }">
+                          <has-error :form="form" field="firstname"></has-error>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="lastname" class="col-sm-2 col-form-label">Last Name</label>
                         <div class="col-sm-10">
-                          <input type="text" v-model="form.lastname" class="form-control" id="lastname">
+                          <input type="text" v-model="form.lastname" class="form-control" id="lastname" :class="{ 'is-invalid': form.errors.has('lastname') }">
+                          <has-error :form="form" field="lastname"></has-error>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="email" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
-                          <input type="email" v-model="form.email" class="form-control" id="email">
+                          <input type="email" v-model="form.email" class="form-control" id="email" :class="{ 'is-invalid': form.errors.has('email') }">
+                          <has-error :form="form" field="email"></has-error>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="bio" class="col-sm-2 col-form-label">Bio</label>
                         <div class="col-sm-10">
-                          <textarea v-model="form.bio" class="form-control" id="bio"></textarea>
+                          <textarea v-model="form.bio" class="form-control" id="bio" :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
+                          <has-error :form="form" field="bio"></has-error>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -103,9 +107,10 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="passport" class="col-sm-2 col-form-label">Passport (leave blank if not changing)</label>
+                        <label for="password" class="col-sm-2 col-form-label">Password (leave blank if not changing)</label>
                         <div class="col-sm-10">
-                          <input type="text" v-model="form.passport" class="form-control" id="passport">
+                          <input type="password" v-model="form.password" class="form-control" id="password" :class="{ 'is-invalid': form.errors.has('password') }">
+                          <has-error :form="form" field="password"></has-error>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -146,23 +151,43 @@
             console.log('Component mounted.')
         },
         methods:{
-            updateProfile(){
-                this.form.put('api/profile/')
-                .then(()=>{
+          getProfilePic(){
+            
+            let photo =(this.form.photo.length > 200) ? this.form.photo : "images/profilePics/" + this.form.photo;
 
-                })
-                .catch(()=>{
+            return photo;
+          },
+          updateProfile(){
 
-                });
-            },
-            uploadPic(e){
-                let file = e.target.files[0];
-                let reader = new FileReader();
+            this.$Progress.start();
+            this.form.put('api/profile/')
+            .then(()=>{
+              fire.$emit('AfterCreate');
+              this.$Progress.finish();
+            })
+            .catch(()=>{
+
+              this.$Progress.fail();
+            });
+          },
+          uploadPic(e){
+              let file = e.target.files[0];
+              let reader = new FileReader();
+
+              if (file['size'] < 2111775) {
+
                 reader.onloadend = (file) => {
                   this.form.photo = reader.result;
                 }
                 reader.readAsDataURL(file);
-            }
+              } else {
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'You are uploading a large file. 2MB max',
+                })
+              }
+          }
         },
         created() {
             axios.get("api/profile")

@@ -151,7 +151,8 @@
           form: new Form({
             // parsing the data retrieved into the relevant fields
             id : '',
-            name : '',
+            firstname : '',
+            lastname : '',
             email: '',
             password: '',
             type: '',

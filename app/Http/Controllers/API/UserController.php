@@ -18,6 +18,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+        
     }
 
     
@@ -28,7 +29,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->authorize('isAdmin');
         // returns the latest user info and constricts the page to entries
         return User::latest()->paginate(10);
     }
@@ -41,12 +41,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
    //validation of selected fields
-$this->validate($request,[
-    'firstname' => 'required|string|max:191',
-    'email' => 'required|string|email|max:191|unique:users',
-    'password' => 'sometimes|required|string|min:6',
-]);
+    $this->validate($request, [
+        'firstname' => 'required|string|max:191',
+        'email' => 'required|string|email|max:191|unique:users',
+        'password' => 'required|string|min:6',
+    ]);
 
         // function creates an array of the fields in the form
         return User::create([
@@ -65,40 +66,35 @@ $this->validate($request,[
     {
         $user = auth('api')->user();
 
+        $this->validate($request, [
+            'firstname' => 'required|string|max:191',
+            'lastname' => 'required|string|max:191',
+            'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
+            'password' => 'sometimes|required|string|min:6',
+        ]);
 
-        //validation of selected fields
-        // $this->validate($request,[
-        //     'firstname' => 'required|string|max:191',
-        //     'lastname' => 'required|string|max:191',
-        //     'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
-        //     'password' => 'required|sometimes|string|min:6',
-        // ]);
-
-
-        // return ['message' => 'Success'];
-        // return $request->photo;
-        // $currentPhoto = $user->photo;
-        // if ($request->photo != $currentPhoto){
-        //     $firstname = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
-        //     \Image::make($request->photo)->save(public_path('images/profile/').$firstname); 
-
-        //     $request->merge(['photo'=> $firstname]);
-
-        //     $userPhoto = public_path('images/profile/').$currentPhoto;
-        //     if(file_exists($userPhoto)){
-        //         @unlink($userPhoto);
-        //     }
-        // }
-        
-
-        // if(!empty($request->password)){
-        //     $request->merge(['password' => Hash::make($request['password'])]);
-        // }
+        $currentPhoto = $user->photo;
             
-        // $user->update($request->all());
-            
-        
-        return $request->photo;
+        if($request->photo != $currentPhoto) {
+            $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+
+            \Image::make($request->photo)->save(public_path('images/profilePics/').$name);
+
+            $request->merge(['photo' => $name]);
+
+            $userPhoto = public_path('images/ProfilePics/').$currentPhoto;
+
+            if(file_exists($userPhoto)) {
+                @unlink($userPhoto);
+            }
+        }
+
+        if(!empty($request->password)) {
+            $request->merge(['password' => Hash::make($request['password'])]);
+        }
+
+        $user->update($request->all());
+        return ['message' => "Success"];
     }
     public function profile()
     {
@@ -144,7 +140,8 @@ $this->validate($request,[
      */
     public function destroy($id)
     {
-        $this->authorize('isAdmin'); 
+        $this->authorize('isAdmin');
+
         $user = User::FindOrFail($id);
 
         // Delete the user
