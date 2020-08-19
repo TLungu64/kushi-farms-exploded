@@ -54,14 +54,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="./images/user.png" class="img-circle elevation-2" alt="User Image">
+          <a href="/profile" class="d-block">
+            <img src="./images/profilePics/{{Auth::user()->photo}}" class="img-circle elevation-2" alt="User Image">
+          </a>
         </div>
         <div class="info">
           <a href="/profile" class="d-block">
           {{Auth::user()->firstname}}
-        {{-- </p>
-        {{Auth::user()->type}}
-          <p> --}}
           </a>
         </div>
       </div>
@@ -75,58 +74,75 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li class="nav-item">
               {{-- router links using vue router to navigate the route --}}
               <router-link to="/dashboard" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt blue"></i>
+                <i class="nav-icon fas fa-tachometer-alt green"></i>
                 <p>
                   Dashboard
                 </p> 
               </router-link>
             </li>
 
-            <li class="nav-item">
-              <router-link to="/profile" class="nav-link">
-                <i class="nav-icon fas fa-user pink"></i>
-                <p>
-                  Profile
-                </p>
-            </li>
-
-            @can('isAdmin')
+            @cannot('isUser')
             <li class="nav-item has-treeview">
-            <a href="#" class="nav-link ">
-              <i class="nav-icon fas fa-cog purple"></i>
-              <p>
-                Management
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/users" class="nav-link ">
-                  <i class="nav-icon fas fa-users cyan"></i>
-                  <p>Users</p>
-                </router-link>
-              </li>
-
-              <li class="nav-item">
-                <router-link to="/inventory" class="nav-link">
-                  <i class="nav-icon fas fa-dolly-flatbed indigo"></i>
-                  <p>
-                    Inventory 
-                  </p>  
-                </router-link>
-              </li>
-
-              <li class="nav-item">
-                <router-link to="/stock" class="nav-link">
-                  <i class="nav-icon fas fa-cubes orange"></i>
-                  <p>
-                    Stock
-                  </p>  
-                </router-link>
-              </li>
-            </ul>
-            @endcan            
-            
+              <a href="#" class="nav-link ">
+                <i class="nav-icon fas fa-stream green"></i>
+                <p>
+                  Management
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <router-link to="/orders" class="nav-link ">
+                    <i class="fas fa-shopping-cart orange"></i>
+                    <p>Orders</p>
+                  </router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link to="/sales" class="nav-link ">
+                    <i class="fas fa-money-bill-alt orange"></i>
+                    <p>
+                      Sales
+                    </p>
+                  </router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link to="/stock" class="nav-link">
+                    <i class="nav-icon fas fa-cubes orange"></i>
+                    <p>
+                      Stock
+                    </p>  
+                  </router-link>
+                </li>             
+              </ul>
+            </li>
+            @cannot('isAuthor')
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-cog green"></i>
+                <p>
+                  Settings
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <router-link to="/inventory" class="nav-link">
+                    <i class="nav-icon fas fa-dolly-flatbed orange"></i>
+                    <p>
+                      Inventory 
+                    </p>  
+                  </router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link to="/users" class="nav-link ">
+                    <i class="nav-icon fas fa-users orange"></i>
+                    <p>Users</p>
+                  </router-link>
+                </li>   
+              </ul>
+            </li>
+            @endcannot            
+            @endcan
             <li class="nav-item">
               <a class="nav-link" href="{{ route('logout') }}"
                 onclick="event.preventDefault();

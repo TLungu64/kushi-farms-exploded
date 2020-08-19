@@ -101,7 +101,7 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="photo" class="col-sm-2 col-form-label">Photo</label>
+                        <label for="photo" class="col-sm-2 col-form-label">Profile picture</label>
                         <div class="col-sm-10">
                           <input type="file" id="photo" @change="uploadPic" class="form-input">
                         </div>

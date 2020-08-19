@@ -29,8 +29,11 @@ class UserController extends Controller
      */
     public function index()
     {
+
+        $this->authorize('isAdmin');
+
         // returns the latest user info and constricts the page to entries
-        return User::latest()->paginate(10);
+        return User::latest()->paginate(20);
     }
 
     /**
@@ -39,15 +42,25 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
 
-   //validation of selected fields
-    $this->validate($request, [
-        'firstname' => 'required|string|max:191',
-        'email' => 'required|string|email|max:191|unique:users',
-        'password' => 'required|string|min:6',
-    ]);
+        $this->authorize('isAdmin');
+
+        //validation of selected fields
+        $this->validate($request, [
+            'firstname' => 'required|string|max:191',
+            'email' => 'required|string|email|max:191|unique:users',
+            'password' => 'required|string|min:6',
+        ]);
+
+        if($request->photo) {
+
+            $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+
+            \Image::make($request->photo)->save(public_path('images/profilePics/').$name);
+
+            $request->merge(['photo' => $name]);
+        }
 
         // function creates an array of the fields in the form
         return User::create([
@@ -62,8 +75,8 @@ class UserController extends Controller
         ]);
     }
     
-    public function updateProfile(Request $request)
-    {
+    public function updateProfile(Request $request) {
+
         $user = auth('api')->user();
 
         $this->validate($request, [
@@ -94,10 +107,9 @@ class UserController extends Controller
         }
 
         $user->update($request->all());
-        return ['message' => "Success"];
     }
-    public function profile()
-    {
+
+    public function profile() {
         return auth('api')->user();
     }
 
@@ -107,8 +119,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
     }    
 
@@ -119,8 +130,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {   
+    public function update(Request $request, $id) {   
+
+        $this->authorize('isAdmin');
+
         $user = User::FindOrFail($id);
 
         $this->validate($request,[
@@ -151,14 +164,21 @@ class UserController extends Controller
         return ['message' => 'User Deleted'];
     }
 
-    public function search(){
+    public function search() {
+
+        $this->authorize('isAdmin');
+
         if ($search = \Request::get('q')) {
+
             $users = User::where(function($query) use ($search){
+
                 $query->where('firstname','LIKE',"%$search%")->orWhere('email','LIKE',"%$search%");
             })->paginate(20);
-        }else{
+        } else {
+
             $users = User::latest()->paginate(5);
-                }
+        }
+
         return $users;
     }
 }

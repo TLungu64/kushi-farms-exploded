@@ -70856,6 +70856,15 @@ var Gate = function () {
 
             return this.user.type === 'author';
         }
+    }, {
+        key: 'isAdminOrAuthor',
+        value: function isAdminOrAuthor() {
+
+            if (this.user.type === 'admin' || this.user.type === 'author') {
+
+                return true;
+            }
+        }
     }]);
 
     return Gate;
@@ -81302,7 +81311,7 @@ var render = function() {
                       staticClass: "col-sm-2 col-form-label",
                       attrs: { for: "photo" }
                     },
-                    [_vm._v("Photo")]
+                    [_vm._v("Profile picture")]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "col-sm-10" }, [
@@ -81695,7 +81704,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
+
     return {
+
       editmode: false,
       users: {},
       form: new Form({
@@ -81722,31 +81733,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.users = response.data;
       });
     },
-    updateUser: function updateUser() {
+    uploadPic: function uploadPic(e) {
       var _this2 = this;
 
-      // console.log('editing data');
-      this.$Progress.start();
-      this.form.put('api/user/' + this.form.id).then(function () {
-        // success
-        Refresh.$emit('actionMade');
-        $('#addnew').modal('hide');
+      var file = e.target.files[0];
+      var reader = new FileReader();
 
-        Toast.fire({
-          icon: 'success',
-          title: 'User updated successfully'
+      if (file['size'] < 2111775) {
+
+        reader.onloadend = function (file) {
+          _this2.form.photo = reader.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        Swal.fire({
+          type: 'error',
+          title: 'Oops...',
+          text: 'You are uploading a large file. 2MB max'
         });
+      }
+    },
+    updateUser: function updateUser() {
+      var _this3 = this;
 
-        _this2.$Progress.finish();
-      }).catch(function () {
-        _this2.$Progress.fail();
-      });
+      if (this.$gate.isAdmin()) {
+
+        this.$Progress.start();
+        this.form.put('api/user/' + this.form.id).then(function () {
+
+          Refresh.$emit('actionMade');
+
+          $('#addnew').modal('hide');
+
+          Toast.fire({
+            icon: 'success',
+            title: 'User updated successfully'
+          });
+
+          _this3.$Progress.finish();
+        }).catch(function () {
+
+          _this3.$Progress.fail();
+        });
+      }
     },
     editUser: function editUser(user) {
-      this.editmode = true;
-      this.form.reset();
-      $('#addnew').modal('show');
-      this.form.fill(user);
+
+      if (this.$gate.isAdmin) {
+
+        this.editmode = true;
+        this.form.reset();
+        $('#addnew').modal('show');
+        this.form.fill(user);
+      }
     },
     newModal: function newModal() {
       this.editmode = false;
@@ -81754,104 +81793,115 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       $('#addnew').modal('show');
     },
     deleteUser: function deleteUser(id) {
-      var _this3 = this;
+      var _this4 = this;
 
-      var swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
-      });
+      if (this.$gate.isAdmin()) {
 
-      swalWithBootstrapButtons.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Delete',
-        cancelButtonText: 'Cancel',
-        reverseButtons: false
-      }).then(function (result) {
+        var swalWithBootstrapButtons = Swal.mixin({
 
-        // send request to the server 
-        if (result.value) {
-          _this3.form.delete('api/user/' + id);
-          swalWithBootstrapButtons.fire('Deleted!', 'Your file has been deleted.', 'success');
-          Refresh.$emit('actionMade');
-        } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel) {
-          Toast.fire({
-            icon: 'error',
-            title: 'deletion aborted'
-          });
-        }
-      });
+          customClass: {
+
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+          },
+
+          buttonsStyling: false
+        });
+
+        swalWithBootstrapButtons.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Delete',
+          cancelButtonText: 'Cancel',
+          reverseButtons: false
+        }).then(function (result) {
+
+          // send request to the server 
+          if (result.value) {
+
+            _this4.form.delete('api/user/' + id);
+            swalWithBootstrapButtons.fire('Deleted!', 'Your file has been deleted.', 'success');
+            Refresh.$emit('actionMade');
+          } else if (
+
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel) {
+            Toast.fire({
+              icon: 'error',
+              title: 'deletion aborted'
+            });
+          }
+        });
+      }
     },
     loadUsers: function loadUsers() {
-      var _this4 = this;
+      var _this5 = this;
 
       if (this.$gate.isAdmin()) {
 
         // using axios to use the api controller to route the data and update the database with the same data
         axios.get("api/user").then(function (_ref) {
           var data = _ref.data;
-          return _this4.users = data;
+          return _this5.users = data;
         }).catch(function () {
-          _this4.$Progress.fail();
+          _this5.$Progress.fail();
         });
       }
     },
-
-
-    // method to create user via info given in form
     createUser: function createUser() {
-      var _this5 = this;
+      var _this6 = this;
 
-      // progress bar begins
-      this.$Progress.start();
+      if (this.$gate.isAdmin()) {
 
-      //  posts http request to server with promise to validate and catch password exception 
-      this.form.post('api/user').then(function () {
+        this.$Progress.start();
 
-        // event initialization 
-        Refresh.$emit('actionMade');
-        // hides the modal once the user is created
-        // the addnew is the modal id 
-        $('#addnew').modal('hide');
+        //  posts http request to server with promise to validate and catch password exception 
+        this.form.post('api/user').then(function () {
 
-        // splashes the sweet alert feature showing that the user has been successfully created
-        Toast.fire({
-          icon: 'success',
-          title: 'User added successfully'
+          // event initialization 
+          Refresh.$emit('actionMade');
+          // hides the modal once the user is created
+          // the addnew is the modal id 
+          $('#addnew').modal('hide');
+
+          // splashes the sweet alert feature showing that the user has been successfully created
+          Toast.fire({
+
+            icon: 'success',
+            title: 'User added successfully'
+          });
+
+          // progress bar ends 
+          _this6.$Progress.finish();
+        }).catch(function () {
+
+          _this6.$Progress.fail();
         });
-
-        // progress bar ends 
-        _this5.$Progress.finish();
-      }).catch(function () {
-        _this5.$Progress.fail();
-      });
+      }
     }
   },
+
   created: function created() {
-    var _this6 = this;
+    var _this7 = this;
 
-    Fire.$on('searching', function () {
-      var query = _this6.$parent.search;
-      axios.get('api/findUser?q=' + query).then(function (data) {
-        _this6.users = data.data;
-      }).catch(function () {});
-    });
-    this.loadUsers();
+    if (this.$gate.isAdmin()) {
 
-    // Event component listening in to refresh
-    Refresh.$on('actionMade', function () {
-      _this6.loadUsers();
-    });
+      Fire.$on('searching', function () {
 
-    // refreshes the page and sends a request every 3 seconds
-    // setInterval(() => this.loadUsers(),3000);
+        var query = _this7.$parent.search;
+        axios.get('api/findUser?q=' + query).then(function (data) {
+          _this7.users = data.data;
+        }).catch(function () {});
+      });
+      this.loadUsers();
+
+      // Event component listening in to refresh
+      Refresh.$on('actionMade', function () {
+        _this7.loadUsers();
+      });
+    }
   }
 });
 
@@ -82246,7 +82296,7 @@ var render = function() {
                         },
                         [
                           _c("option", { attrs: { value: "" } }, [
-                            _vm._v("Select User Role")
+                            _vm._v("Select user role")
                           ]),
                           _vm._v(" "),
                           _c("option", { attrs: { value: "admin" } }, [
@@ -82308,43 +82358,22 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "form-group" },
-                    [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.photo,
-                            expression: "form.photo"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        class: { "is-invalid": _vm.form.errors.has("photo") },
-                        attrs: {
-                          type: "text",
-                          name: "photo",
-                          placeholder: "Photograph"
-                        },
-                        domProps: { value: _vm.form.photo },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.form, "photo", $event.target.value)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("has-error", {
-                        attrs: { form: _vm.form, field: "photo" }
-                      })
-                    ],
-                    1
-                  ),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm- col-form-label",
+                        attrs: { for: "photo" }
+                      },
+                      [_vm._v("Profile picture")]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "form-input",
+                      attrs: { type: "file", id: "photo" },
+                      on: { change: _vm.uploadPic }
+                    })
+                  ]),
                   _vm._v(" "),
                   _c(
                     "div",
