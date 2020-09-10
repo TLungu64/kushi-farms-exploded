@@ -157,7 +157,7 @@
                                             <label for="email" class="col-md-4 col-form-label text-md-right"><strong>{{ __('E-Mail Address') }}</strong></label>
         
                                             <div class="col-md-6">
-                                                <input id="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="emaul" value="{{ old('email') }}" required autofocus>
+                                                <input id="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
         
                                                 @if ($errors->has('email'))
                                                     <span class="invalid-feedback" role="alert">

@@ -8,6 +8,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+
 import{Form,HasError,AlertError} from 'vform'
 window.Vue = require('admin-lte');
 

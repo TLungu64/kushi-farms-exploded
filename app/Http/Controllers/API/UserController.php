@@ -18,6 +18,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+        
     }
 
     
@@ -28,9 +29,11 @@ class UserController extends Controller
      */
     public function index()
     {
+
         $this->authorize('isAdmin');
+
         // returns the latest user info and constricts the page to entries
-        return User::latest()->paginate(10);
+        return User::latest()->paginate(20);
     }
 
     /**
@@ -39,18 +42,29 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-   //validation of selected fields
-$this->validate($request,[
-    'name' => 'required|string|max:191',
-    'email' => 'required|string|email|max:191|unique:users',
-    'password' => 'sometimes|required|string|min:6',
-]);
+    public function store(Request $request) {
+
+        $this->authorize('isAdmin');
+
+        //validation of selected fields
+        $this->validate($request, [
+            'firstname' => 'required|string|max:191',
+            'email' => 'required|string|email|max:191|unique:users',
+            'password' => 'required|string|min:6',
+        ]);
+
+        if($request->photo) {
+
+            $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
+
+            \Image::make($request->photo)->save(public_path('images/profilePics/').$name);
+
+            $request->merge(['photo' => $name]);
+        }
 
         // function creates an array of the fields in the form
         return User::create([
-            'name'=> $request['name'],
+            'firstname'=> $request['firstname'],
             'lastname'=> $request['lastname'],
             'email'=> $request['email'],
             'type'=> $request['type'],
@@ -61,46 +75,41 @@ $this->validate($request,[
         ]);
     }
     
-    public function updateProfile(Request $request)
-{
+    public function updateProfile(Request $request) {
+
         $user = auth('api')->user();
 
-
-        //validation of selected fields
-        $this->validate($request,[
-            'name' => 'required|string|max:191',
+        $this->validate($request, [
+            'firstname' => 'required|string|max:191',
+            'lastname' => 'required|string|max:191',
             'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
-            'password' => 'required|sometimes|string|min:6',
+            'password' => 'sometimes|required|string|min:6',
         ]);
 
-
-        // return ['message' => 'Success'];
-        // return $request->photo;
         $currentPhoto = $user->photo;
-        if ($request->photo != $currentPhoto){
+            
+        if($request->photo != $currentPhoto) {
             $name = time().'.' . explode('/', explode(':', substr($request->photo, 0, strpos($request->photo, ';')))[1])[1];
-            \Image::make($request->photo)->save(public_path('images/profile/').$name); 
 
-            $request->merge(['photo'=> $name]);
+            \Image::make($request->photo)->save(public_path('images/profilePics/').$name);
 
-            $userPhoto = public_path('images/profile/').$currentPhoto;
-            if(file_exists($userPhoto)){
+            $request->merge(['photo' => $name]);
+
+            $userPhoto = public_path('images/ProfilePics/').$currentPhoto;
+
+            if(file_exists($userPhoto)) {
                 @unlink($userPhoto);
             }
         }
-        
 
-        if(!empty($request->password)){
+        if(!empty($request->password)) {
             $request->merge(['password' => Hash::make($request['password'])]);
         }
-            $user->update($request->all());
-            return ['message' => "success"];
-            
-        
 
+        $user->update($request->all());
     }
-    public function profile()
-    {
+
+    public function profile() {
         return auth('api')->user();
     }
 
@@ -110,11 +119,9 @@ $this->validate($request,[
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
-    }
-    
+    }    
 
     /**
      * Update the specified resource in storage.
@@ -123,12 +130,14 @@ $this->validate($request,[
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {   
+    public function update(Request $request, $id) {   
+
+        $this->authorize('isAdmin');
+
         $user = User::FindOrFail($id);
 
         $this->validate($request,[
-            'name' => 'required|string|max:191',
+            'firstname' => 'required|string|max:191',
             'email' => 'required|string|email|max:191|unique:users,email,'.$user->id,
             'password' => 'sometimes|min:6',
         ]);
@@ -144,7 +153,8 @@ $this->validate($request,[
      */
     public function destroy($id)
     {
-        $this->authorize('isAdmin'); 
+        $this->authorize('isAdmin');
+
         $user = User::FindOrFail($id);
 
         // Delete the user
@@ -154,14 +164,21 @@ $this->validate($request,[
         return ['message' => 'User Deleted'];
     }
 
-    public function search(){
+    public function search() {
+
+        $this->authorize('isAdmin');
+
         if ($search = \Request::get('q')) {
+
             $users = User::where(function($query) use ($search){
-                $query->where('name','LIKE',"%$search%")->orWhere('email','LIKE',"%$search%");
+
+                $query->where('firstname','LIKE',"%$search%")->orWhere('email','LIKE',"%$search%");
             })->paginate(20);
-        }else{
+        } else {
+
             $users = User::latest()->paginate(5);
-                }
+        }
+
         return $users;
     }
 }

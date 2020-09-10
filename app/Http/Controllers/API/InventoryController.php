@@ -17,6 +17,7 @@ class InventoryController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+        $this->authorize('isAdmin'); 
     }
 
     /**
@@ -26,7 +27,6 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $this->authorize('isAdmin');
         // returns the latest inventory info and constricts the page to entries
         return Inventory::latest()->paginate(10);
     }

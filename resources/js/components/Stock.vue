@@ -314,7 +314,7 @@
                 // splashes the sweet alert feature showing that the user has been successfully created
                 Toast.fire({
                   icon: 'success',
-                  title: 'Signed in successfully'
+                  title: 'stock item has been added successfully'
                 });
 
                 // progress bar ends 

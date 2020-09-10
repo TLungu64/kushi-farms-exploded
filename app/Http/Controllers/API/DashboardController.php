@@ -26,7 +26,6 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $this->authorize('isAdmin');
         // returns the latest Stock info and constricts the page to entries
         return Stock::latest()->paginate(10);
 
@@ -43,10 +42,10 @@ class DashboardController extends Controller
     public function store(Request $request)
     {
        //validation of selected fields
-$this->validate($request,[
-    'type' => 'required|string|max:191',
-    
-]);
+        $this->validate($request,[
+            'type' => 'required|string|max:191',
+            
+        ]);
 
         // function creates an array of the fields in the form
         return Stock::create([
@@ -96,7 +95,6 @@ $this->validate($request,[
      */
     public function destroy($id)
     {
-        $this->authorize('isAdmin'); 
         $stock = Stock::FindOrFail($id);
 
         // Delete the stock
